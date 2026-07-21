@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Chat — Success Club Scholarship Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">
+      <div class="brand-mark">SC</div>
+      <div class="brand-text">
+        <div class="name">Success Club Scholarship Portal</div>
+        <div class="tag">AI Club · SDG 4</div>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a class="nav-link" href="index.html">Home</a>
+      <a class="nav-link" href="about.html">About Us</a>
+      <a class="nav-link" href="apply.html">Applications</a>
+      <a class="nav-link active" href="chat.html">AI Chat</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap" style="padding-top:48px;padding-bottom:60px;">
+  <div class="section-head">
+    <h2>Ask about your scholarship</h2>
+    <p>This assistant can answer questions about eligibility, documents, deadlines, and how to apply. It's a helper, not a reviewer — it doesn't see or decide on real applications. You have <strong>25 messages</strong> per visit.</p>
+  </div>
+
+  <div class="card" style="padding:0;">
+    <div class="chat-shell">
+      <div class="chat-log" id="chatLog">
+        <div class="chat-msg bot">Hi! I'm here to help with questions about the Success Club scholarships — eligibility, documents, deadlines, or how to apply. What would you like to know?</div>
+      </div>
+      <div class="chat-counter" id="chatCounter">25 messages left</div>
+      <div class="chat-input-row">
+        <input type="text" id="chatInput" placeholder="Ask a question…" onkeydown="if(event.key==='Enter'){sendMessage();}">
+        <button class="btn btn-primary" id="chatSendBtn" onclick="sendMessage()">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <p style="font-size:12px;color:var(--text-faint);margin-top:14px;">This chatbot runs on Claude, made by Anthropic. It can make mistakes — for anything about your specific application status, contact us directly instead.</p>
+</div>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div>
+      <div class="brand-text">
+        <div class="name">Success Club Scholarship Portal</div>
+        <div class="tag">A Success Club 2026 · AI Club project</div>
+      </div>
+      <div class="cities">Karachi · Lahore · Islamabad — 1 Jul to Mid Aug 2026</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const MAX_MESSAGES = 25;
+  let messageCount = 0;
+  let history = [];
+
+  const SYSTEM_PROMPT = `You are a friendly, concise help assistant embedded on the Success Club Scholarship Portal, a scholarship programme for underprivileged students in Pakistan (Karachi, Lahore, Islamabad), running 1 July to Mid August 2026.
+
+Programme facts you should use when relevant:
+- Matric Continuation Grant: Karachi, Grade 9-10, PKR 40,000/year, household income cap PKR 60,000/month, min. marks 70%, deadline 15 Aug 2026.
+- Intermediate Excellence Award: Lahore, Grade 11-12, PKR 60,000/year, income cap PKR 60,000/month, min. marks 80%, deadline 20 Aug 2026.
+- A-Levels Momentum Scholarship: Islamabad, A-Levels, PKR 85,000/year, income cap PKR 70,000/month, min. marks 75%, deadline 25 Aug 2026.
+- O-Levels Bridge Grant: all three cities, O-Levels, PKR 55,000/year, income cap PKR 60,000/month, min. marks 70%, deadline 30 Aug 2026.
+- Applying is completely free. Required documents: latest mark sheet, proof of household income, CNIC/B-form copy — shared as Google Drive links, not file uploads.
+- Thresholds are guidelines; applicants below them are still encouraged to apply and explain their circumstances in the essay.
+- You are a helper only — you cannot look up or discuss any specific applicant's real status, and you never make eligibility or approval decisions yourself.
+- Keep answers short, warm, and easy to understand for a teenage applicant or their parent. If asked something you don't know, say so honestly and suggest they contact the programme directly.`;
+
+  function renderMessage(text, sender){
+    const log = document.getElementById('chatLog');
+    const div = document.createElement('div');
+    div.className = 'chat-msg ' + sender;
+    div.textContent = text;
+    log.appendChild(div);
+    log.scrollTop = log.scrollHeight;
+    return div;
+  }
+
+  function updateCounter(){
+    const left = MAX_MESSAGES - messageCount;
+    const counter = document.getElementById('chatCounter');
+    counter.textContent = left + ' message' + (left === 1 ? '' : 's') + ' left';
+    counter.classList.toggle('low', left <= 5);
+  }
+
+  async function sendMessage(){
+    const input = document.getElementById('chatInput');
+    const text = input.value.trim();
+    if(!text) return;
+
+    if(messageCount >= MAX_MESSAGES){
+      renderMessage("You've reached the 25-message limit for this visit. Refresh the page to start a new session, or head to the Applications page to apply directly.", 'bot');
+      return;
+    }
+
+    messageCount++;
+    updateCounter();
+    renderMessage(text, 'user');
+    history.push({ role: 'user', content: text });
+    input.value = '';
+
+    const sendBtn = document.getElementById('chatSendBtn');
+    sendBtn.disabled = true;
+    input.disabled = true;
+    const typingEl = renderMessage('Typing…', 'bot typing');
+
+    try{
+      const response = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-6",
+          max_tokens: 400,
+          system: SYSTEM_PROMPT,
+          messages: history
+        })
+      });
+      const data = await response.json();
+      const textBlocks = (data.content || []).filter(b => b.type === 'text').map(b => b.text);
+      const reply = textBlocks.join('\n').trim() || "Sorry, I couldn't come up with an answer to that — try rephrasing, or check the Applications page for details.";
+      typingEl.remove();
+      renderMessage(reply, 'bot');
+      history.push({ role: 'assistant', content: reply });
+    } catch(err){
+      console.error('Chat error', err);
+      typingEl.remove();
+      renderMessage("Something went wrong reaching the assistant. Please try again in a moment.", 'bot');
+    } finally {
+      sendBtn.disabled = messageCount >= MAX_MESSAGES;
+      input.disabled = messageCount >= MAX_MESSAGES;
+      input.focus();
+    }
+  }
+
+  updateCounter();
+</script>
+
+</body>
+</html>

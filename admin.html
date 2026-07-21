@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Staff Panel</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="brand">
+      <div class="brand-mark">SC</div>
+      <div class="brand-text">
+        <div class="name">Staff Panel</div>
+        <div class="tag">Not part of the public site</div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="admin-gate card" id="adminGate">
+    <h3 style="margin-bottom:6px;">Staff login</h3>
+    <p style="font-size:13px;">This page is for programme reviewers only. Applicants never see this link.</p>
+    <input type="email" id="adminEmail" placeholder="Staff email" style="margin-bottom:10px;">
+    <input type="password" id="adminPass" placeholder="Password">
+    <button class="btn btn-primary" style="width:100%;" onclick="checkAdminPass()">Enter</button>
+    <p id="adminError" style="font-size:12.5px;color:var(--danger);margin-top:10px;display:none;">Incorrect email or password.</p>
+  </div>
+
+  <div id="adminPanel" style="display:none;padding:48px 0;">
+    <div class="section-head" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;">
+      <div>
+        <h2>Applications</h2>
+        <p>All submitted applications.</p>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <button class="btn btn-ghost btn-sm" onclick="loadApplications()">Refresh</button>
+        <button class="btn btn-ghost btn-sm" onclick="exportCsv()">Export CSV</button>
+        <button class="btn btn-ghost btn-sm" onclick="logoutAdmin()">Log out</button>
+      </div>
+    </div>
+
+    <div class="admin-toolbar">
+      <input type="text" id="searchBox" placeholder="Search by name or city…" oninput="renderTable()">
+      <select id="statusFilter" onchange="renderTable()">
+        <option value="">All statuses</option>
+        <option value="submitted">Submitted</option>
+        <option value="review">Under review</option>
+        <option value="approved">Approved</option>
+        <option value="rejected">Rejected</option>
+      </select>
+      <select id="trackFilter" onchange="renderTable()">
+        <option value="">All tracks</option>
+        <option>Matric Continuation Grant (Karachi)</option>
+        <option>Intermediate Excellence Award (Lahore)</option>
+        <option>A-Levels Momentum Scholarship (Islamabad)</option>
+        <option>O-Levels Bridge Grant (All cities)</option>
+      </select>
+    </div>
+
+    <div class="card" style="padding:0;overflow-x:auto;">
+      <table class="admin-table" id="adminTable">
+        <thead><tr><th>Applicant</th><th>Track</th><th>City</th><th>Marks</th><th>Income</th><th>Status</th></tr></thead>
+        <tbody id="adminBody"></tbody>
+      </table>
+      <div class="admin-empty" id="adminEmpty" style="display:none;">No applications yet.</div>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="firebase-config.js"></script>
+<script>
+  let ALL_RECORDS = [];
+
+  window.addEventListener('firebase-ready', () => {
+    window.onAdminAuthChange((user) => {
+      const gate = document.getElementById('adminGate');
+      const panel = document.getElementById('adminPanel');
+      if(user){
+        gate.style.display = 'none';
+        panel.style.display = 'block';
+        loadApplications();
+      }
+    });
+  });
+
+  async function checkAdminPass(){
+    const email = document.getElementById('adminEmail').value;
+    const pass = document.getElementById('adminPass').value;
+    document.getElementById('adminError').style.display = 'none';
+    try{
+      await window.adminSignIn(email, pass);
+    } catch(err){
+      console.error(err);
+      document.getElementById('adminError').style.display = 'block';
+    }
+  }
+  async function logoutAdmin(){
+    await window.adminSignOut();
+    document.getElementById('adminPass').value = '';
+    document.getElementById('adminGate').style.display = 'block';
+    document.getElementById('adminPanel').style.display = 'none';
+  }
+
+  async function loadApplications(){
+    const empty = document.getElementById('adminEmpty');
+    empty.style.display = 'block';
+    empty.textContent = 'Loading…';
+    ALL_RECORDS = await window.storeListApplications();
+    ALL_RECORDS.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+    renderTable();
+  }
+
+  function renderTable(){
+    const body = document.getElementById('adminBody');
+    const empty = document.getElementById('adminEmpty');
+    const search = document.getElementById('searchBox').value.trim().toLowerCase();
+    const statusF = document.getElementById('statusFilter').value;
+    const trackF = document.getElementById('trackFilter').value;
+
+    body.innerHTML = '';
+    const filtered = ALL_RECORDS.filter(r => {
+      const matchesSearch = !search || (r.fullName || '').toLowerCase().includes(search) || (r.city || '').toLowerCase().includes(search);
+      const matchesStatus = !statusF || r.status === statusF;
+      const matchesTrack = !trackF || r.track === trackF;
+      return matchesSearch && matchesStatus && matchesTrack;
+    });
+
+    if(filtered.length === 0){
+      empty.style.display = 'block';
+      empty.textContent = ALL_RECORDS.length === 0 ? 'No applications yet.' : 'No applications match your filters.';
+      return;
+    }
+    empty.style.display = 'none';
+    filtered.forEach(r => body.appendChild(renderRow(r)));
+  }
+
+  function driveLink(url, label){
+    if(!url) return label + ': none provided';
+    return label + ': <a href="' + url + '" target="_blank" rel="noopener">view document</a>';
+  }
+
+  function renderRow(r){
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>
+        <div class="admin-row-name" onclick="this.nextElementSibling.classList.toggle('show')">${r.fullName || '—'}</div>
+        <div style="font-size:11.5px;color:var(--text-faint);">${r.id}</div>
+        <div class="admin-detail">
+          DOB: ${r.dob || '—'} · Gender: ${r.gender || '—'}<br>
+          CNIC: ${r.cnic || '—'} · Phone: ${r.phone || '—'} · Email: ${r.email || '—'}<br>
+          Guardian: ${r.guardianName || '—'} (${r.guardianPhone || '—'})<br>
+          School: ${r.school || '—'} · Address: ${r.address || '—'}<br>
+          Siblings: ${r.siblings || '—'}<br>
+          ${driveLink(r.driveMarks, 'Mark sheet')}<br>
+          ${driveLink(r.driveIncome, 'Income proof')}<br>
+          ${driveLink(r.driveCnic, 'CNIC copy')}<br>
+          Essay: ${r.essay || '—'}
+        </div>
+      </td>
+      <td>${r.track || '—'}</td>
+      <td>${r.city || '—'}</td>
+      <td>${r.marks || '—'}%</td>
+      <td>₨${Number(r.income || 0).toLocaleString()}</td>
+      <td>
+        <select class="status-select" onchange="updateStatus('${r.id}', this.value)">
+          <option value="submitted" ${r.status==='submitted'?'selected':''}>Submitted</option>
+          <option value="review" ${r.status==='review'?'selected':''}>Under review</option>
+          <option value="approved" ${r.status==='approved'?'selected':''}>Approved</option>
+          <option value="rejected" ${r.status==='rejected'?'selected':''}>Rejected</option>
+        </select>
+      </td>`;
+    return tr;
+  }
+
+  async function updateStatus(id, status){
+    await window.storeUpdateStatus(id, status);
+    const rec = ALL_RECORDS.find(r => r.id === id);
+    if(rec) rec.status = status;
+  }
+
+  function exportCsv(){
+    if(ALL_RECORDS.length === 0) return;
+    const cols = ['id','fullName','cnic','phone','email','guardianName','guardianPhone','city','school','track','grade','marks','income','status','timestamp'];
+    const rows = [cols.join(',')];
+    ALL_RECORDS.forEach(r => {
+      rows.push(cols.map(c => `"${String(r[c] ?? '').replace(/"/g,'""')}"`).join(','));
+    });
+    const blob = new Blob([rows.join('\n')], { type: 'text/csv' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'applications.csv';
+    link.click();
+  }
+</script>
+
+</body>
+</html>
