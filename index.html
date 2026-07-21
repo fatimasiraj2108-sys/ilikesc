@@ -575,6 +575,45 @@
 </footer>
 
 <script>
+  // --- Storage layer -------------------------------------------------
+  // Using localStorage for now (works on this browser/device only —
+  // no syncing between the applicant's device and yours). Swap this
+  // block out once a real backend is connected.
+  const STORE_KEY = 'sc26_applications';
+
+  function storeGetAll(){
+    try{
+      const raw = localStorage.getItem(STORE_KEY);
+      return raw ? JSON.parse(raw) : {};
+    } catch(err){
+      console.error('Could not read localStorage', err);
+      return {};
+    }
+  }
+  function storeSaveAll(all){
+    try{
+      localStorage.setItem(STORE_KEY, JSON.stringify(all));
+      return true;
+    } catch(err){
+      console.error('Could not write localStorage', err);
+      return false;
+    }
+  }
+  function storeSetApplication(record){
+    const all = storeGetAll();
+    all[record.id] = record;
+    return storeSaveAll(all);
+  }
+  function storeGetApplication(id){
+    const all = storeGetAll();
+    return all[id] || null;
+  }
+  function storeListApplications(){
+    const all = storeGetAll();
+    return Object.values(all);
+  }
+  // ---------------------------------------------------------------------
+
   function go(page){
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById('page-' + page).classList.add('active');
@@ -600,7 +639,7 @@
     }
   }
 
-  async function submitApplication(e){
+  function submitApplication(e){
     e.preventDefault();
     const track = document.getElementById('track').value;
     const city = document.getElementById('city').value;
@@ -633,11 +672,7 @@
       docCnic: (document.getElementById('docCnic').files[0] || {}).name || ''
     };
 
-    try{
-      await window.storage.set('application:' + id, JSON.stringify(record), true);
-    } catch(err){
-      console.error('Could not save application', err);
-    }
+    storeSetApplication(record);
 
     document.getElementById('rId').textContent = id;
     document.getElementById('rName').textContent = record.fullName;
@@ -696,31 +731,19 @@
     document.getElementById('adminPanel').style.display = 'none';
   }
 
-  async function loadApplications(){
+  function loadApplications(){
     const body = document.getElementById('adminBody');
     const empty = document.getElementById('adminEmpty');
     body.innerHTML = '';
-    try{
-      const list = await window.storage.list('application:', true);
-      if(!list || !list.keys || list.keys.length === 0){
-        empty.style.display = 'block';
-        return;
-      }
-      empty.style.display = 'none';
-      const records = [];
-      for(const key of list.keys){
-        try{
-          const res = await window.storage.get(key, true);
-          if(res) records.push(JSON.parse(res.value));
-        } catch(err){ /* skip missing key */ }
-      }
-      records.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
-      records.forEach(r => body.appendChild(renderRow(r)));
-    } catch(err){
-      console.error('Could not load applications', err);
+    const records = storeListApplications();
+    if(records.length === 0){
       empty.style.display = 'block';
-      empty.textContent = 'Could not load applications.';
+      empty.textContent = 'No applications yet.';
+      return;
     }
+    empty.style.display = 'none';
+    records.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+    records.forEach(r => body.appendChild(renderRow(r)));
   }
 
   function renderRow(r){
@@ -755,16 +778,11 @@
     return tr;
   }
 
-  async function updateStatus(id, status){
-    try{
-      const res = await window.storage.get('application:' + id, true);
-      if(!res) return;
-      const record = JSON.parse(res.value);
-      record.status = status;
-      await window.storage.set('application:' + id, JSON.stringify(record), true);
-    } catch(err){
-      console.error('Could not update status', err);
-    }
+  function updateStatus(id, status){
+    const record = storeGetApplication(id);
+    if(!record) return;
+    record.status = status;
+    storeSetApplication(record);
   }
 </script>
 
