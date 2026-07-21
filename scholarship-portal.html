@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Success Club Scholarship Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FAFAF7;
+    --card:#FFFFFF;
+    --primary:#2D6A8F;
+    --primary-dark:#204F6B;
+    --accent:#E8A33D;
+    --accent-dark:#C9871F;
+    --success:#3F8F5F;
+    --success-bg:#E9F5EE;
+    --danger:#C0503F;
+    --danger-bg:#FBEDEA;
+    --text:#22303F;
+    --text-soft:#5B6B7A;
+    --text-faint:#8B98A5;
+    --border:#E4E4DE;
+    --radius:12px;
+    --shadow:0 2px 6px rgba(34,48,63,0.06), 0 8px 24px rgba(34,48,63,0.05);
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter', sans-serif;
+    line-height:1.6;
+    font-size:15.5px;
+  }
+  h1,h2,h3,h4{ font-family:'Poppins',sans-serif; font-weight:600; color:var(--text); line-height:1.25; }
+  p{ color:var(--text-soft); }
+  a{ color:inherit; text-decoration:none; }
+  ul{ list-style:none; }
+
+  /* NAV */
+  .nav{ position:sticky; top:0; z-index:50; background:rgba(250,250,247,0.94); backdrop-filter:blur(6px); border-bottom:1px solid var(--border); }
+  .nav-inner{ max-width:1080px; margin:0 auto; padding:16px 24px; display:flex; align-items:center; justify-content:space-between; gap:20px; }
+  .brand{ display:flex; align-items:center; gap:11px; cursor:pointer; }
+  .brand-mark{ width:38px; height:38px; border-radius:10px; background:var(--primary); display:flex; align-items:center; justify-content:center; color:#fff; font-family:'Poppins',sans-serif; font-weight:700; font-size:15px; flex-shrink:0; }
+  .brand-text .name{ font-family:'Poppins',sans-serif; font-weight:600; font-size:15px; }
+  .brand-text .tag{ font-size:11.5px; color:var(--text-faint); }
+  .nav-links{ display:flex; gap:4px; align-items:center; flex-wrap:wrap; }
+  .nav-link{ font-family:'Inter',sans-serif; font-size:14.5px; font-weight:500; padding:9px 16px; border-radius:8px; background:transparent; border:none; cursor:pointer; color:var(--text-soft); transition:all .15s ease; }
+  .nav-link:hover{ color:var(--text); background:rgba(45,106,143,0.08); }
+  .nav-link.active{ color:#fff; background:var(--primary); }
+
+  .page{ display:none; animation:fade .3s ease; }
+  .page.active{ display:block; }
+  @keyframes fade{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 24px; }
+  section.block{ padding:56px 0; }
+  section.block.tight{ padding:36px 0; }
+  .center{ text-align:center; }
+
+  .eyebrow{ display:inline-flex; align-items:center; gap:7px; font-size:12.5px; font-weight:600; letter-spacing:0.02em; color:var(--primary-dark); background:rgba(45,106,143,0.09); padding:6px 14px; border-radius:99px; margin-bottom:18px; }
+  .eyebrow::before{ content:"●"; color:var(--accent); font-size:8px; }
+
+  .hero{ padding:64px 0 44px; }
+  .hero-grid{ display:grid; grid-template-columns:1.2fr 0.8fr; gap:48px; align-items:center; }
+  .hero h1{ font-size:38px; margin-bottom:16px; }
+  .hero p.lede{ font-size:16.5px; max-width:50ch; margin-bottom:14px; }
+  .btn-row{ display:flex; gap:12px; flex-wrap:wrap; margin-top:22px; }
+
+  .btn{ font-family:'Inter',sans-serif; font-weight:600; font-size:14.5px; padding:13px 24px; border-radius:9px; border:1px solid transparent; cursor:pointer; transition:transform .15s ease, box-shadow .15s ease, background .15s ease; }
+  .btn:hover{ transform:translateY(-1px); }
+  .btn-primary{ background:var(--primary); color:#fff; }
+  .btn-primary:hover{ background:var(--primary-dark); box-shadow:0 6px 16px rgba(45,106,143,0.3); }
+  .btn-accent{ background:var(--accent); color:#282110; }
+  .btn-accent:hover{ background:var(--accent-dark); box-shadow:0 6px 16px rgba(232,163,61,0.35); }
+  .btn-ghost{ background:#fff; color:var(--text); border-color:var(--border); }
+  .btn-ghost:hover{ background:rgba(34,48,63,0.04); }
+  .btn-sm{ padding:9px 16px; font-size:13px; }
+  .btn:disabled{ opacity:0.5; cursor:not-allowed; transform:none; }
+
+  .card{ background:var(--card); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); padding:26px; }
+
+  .hero-card{ }
+  .hero-stat-row{ display:flex; justify-content:space-between; padding:11px 0; border-bottom:1px solid var(--border); }
+  .hero-stat-row:last-child{ border-bottom:none; }
+  .hero-stat-row .l{ font-size:13.5px; color:var(--text-soft); }
+  .hero-stat-row .v{ font-weight:700; font-size:15px; }
+  .hero-stat-row .v.accent{ color:var(--accent-dark); }
+  .hero-stat-row .v.success{ color:var(--success); }
+
+  .section-head{ margin-bottom:32px; }
+  .section-head h2{ font-size:27px; margin-bottom:8px; }
+  .section-head p{ max-width:60ch; }
+
+  .grid-3{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+  .grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  .step-card{ }
+  .step-num{ width:32px; height:32px; border-radius:8px; background:rgba(45,106,143,0.1); color:var(--primary-dark); display:flex; align-items:center; justify-content:center; font-family:'Poppins',sans-serif; font-weight:700; font-size:14px; margin-bottom:14px; }
+  .step-card h3{ font-size:16.5px; margin-bottom:6px; }
+  .step-card p{ font-size:13.8px; }
+
+  .stats-strip{ background:var(--primary); border-radius:var(--radius); padding:30px; display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+  .stat{ color:#fff; text-align:center; }
+  .stat .num{ font-family:'Poppins',sans-serif; font-weight:700; font-size:26px; }
+  .stat .lbl{ font-size:12.5px; opacity:0.85; margin-top:4px; }
+
+  .trust-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+  .trust-card{ text-align:left; }
+  .trust-card h3{ font-size:15.5px; margin-bottom:6px; }
+  .trust-card p{ font-size:13.5px; }
+
+  .club-list li{ display:flex; justify-content:space-between; align-items:flex-start; padding:16px 0; border-bottom:1px solid var(--border); gap:16px; }
+  .club-list li:last-child{ border-bottom:none; }
+  .club-list .cname{ font-weight:600; font-size:14.5px; min-width:160px; }
+  .club-list .crole{ font-size:13.5px; color:var(--text-soft); }
+
+  .sch-card{ display:flex; flex-direction:column; gap:12px; }
+  .sch-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }
+  .sch-title{ font-family:'Poppins',sans-serif; font-size:17.5px; font-weight:600; }
+  .sch-city{ font-size:12px; color:var(--text-faint); margin-top:3px; }
+  .sch-amount .n{ font-weight:700; color:var(--accent-dark); font-size:16px; }
+  .sch-amount .p{ font-size:10.5px; color:var(--text-faint); text-align:right; }
+  .sch-desc{ font-size:13.5px; }
+  .seats{ font-size:12px; color:var(--text-soft); display:flex; justify-content:space-between; margin-bottom:6px; }
+  .bar{ height:7px; background:var(--bg); border-radius:99px; overflow:hidden; border:1px solid var(--border); }
+  .bar-fill{ height:100%; background:var(--success); }
+  .sch-bottom{ display:flex; justify-content:space-between; align-items:center; margin-top:4px; }
+  .deadline{ font-size:12px; color:var(--danger); font-weight:600; }
+
+  /* forms */
+  .form-card{ padding:30px; }
+  .form-section-title{ font-family:'Poppins',sans-serif; font-weight:600; font-size:15px; margin:26px 0 14px; padding-top:20px; border-top:1px solid var(--border); }
+  .form-section-title:first-child{ margin-top:0; padding-top:0; border-top:none; }
+  .field{ margin-bottom:16px; }
+  .field label{ display:block; font-size:13.3px; font-weight:600; margin-bottom:6px; }
+  .field .hint{ font-size:11.8px; color:var(--text-faint); margin-top:5px; }
+  input, select, textarea{ width:100%; font-family:'Inter',sans-serif; font-size:14px; color:var(--text); background:#fff; border:1px solid var(--border); border-radius:8px; padding:11px 13px; }
+  input:focus, select:focus, textarea:focus{ outline:none; border-color:var(--primary); box-shadow:0 0 0 3px rgba(45,106,143,0.13); }
+  textarea{ resize:vertical; min-height:110px; }
+  input[type=file]{ padding:9px; font-size:13px; }
+  input[type=checkbox]{ width:auto; margin-right:8px; }
+  .checkbox-row{ display:flex; align-items:flex-start; gap:0; font-size:13.3px; color:var(--text-soft); margin-bottom:12px; }
+  .file-field{ background:var(--bg); border:1px dashed var(--border); border-radius:9px; padding:14px; margin-bottom:12px; }
+  .file-field label{ margin-bottom:8px; }
+  .file-status{ font-size:12px; color:var(--success); margin-top:6px; display:none; }
+  .file-status.show{ display:block; }
+
+  .receipt-empty{ text-align:center; padding:30px 10px; }
+  .receipt-empty p{ font-size:13px; }
+  .receipt{ display:none; }
+  .receipt.show{ display:block; }
+  .stamp{ display:inline-block; font-weight:700; font-size:11.5px; letter-spacing:0.03em; text-transform:uppercase; padding:6px 12px; border-radius:99px; background:var(--success-bg); color:var(--success); }
+  .receipt-row{ display:flex; justify-content:space-between; padding:9px 0; border-bottom:1px solid var(--border); font-size:13.5px; }
+  .receipt-row:last-of-type{ border-bottom:none; }
+  .receipt-row .v{ font-weight:600; }
+
+  .form-wrap{ display:grid; grid-template-columns:1.35fr 0.85fr; gap:28px; align-items:start; }
+  .form-wrap .card{ position:sticky; top:90px; }
+
+  /* eligibility */
+  .elig-wrap{ display:grid; grid-template-columns:0.95fr 1.05fr; gap:28px; align-items:start; }
+  .result-panel{ min-height:230px; display:flex; flex-direction:column; justify-content:center; }
+  .result-empty{ color:var(--text-faint); font-size:13.5px; text-align:center; padding:40px 10px; }
+  .result-title{ font-family:'Poppins',sans-serif; font-size:19px; font-weight:600; margin:12px 0 8px; }
+  .result-body{ font-size:13.5px; }
+
+  footer{ border-top:1px solid var(--border); padding:36px 0; }
+  .foot-grid{ display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap; }
+  .foot-links{ display:flex; gap:16px; align-items:center; }
+  .foot-links a{ font-size:12px; color:var(--text-faint); cursor:pointer; }
+  .foot-links a:hover{ color:var(--text-soft); }
+  footer .cities{ font-size:12px; color:var(--text-faint); margin-top:4px; }
+
+  /* admin */
+  .admin-gate{ max-width:380px; margin:90px auto; text-align:center; }
+  .admin-gate input{ margin:16px 0; }
+  .admin-table{ width:100%; border-collapse:collapse; font-size:13.3px; }
+  .admin-table th{ text-align:left; font-size:11.5px; text-transform:uppercase; letter-spacing:0.03em; color:var(--text-faint); padding:10px 12px; border-bottom:2px solid var(--border); }
+  .admin-table td{ padding:12px; border-bottom:1px solid var(--border); vertical-align:top; }
+  .admin-table tr:hover{ background:rgba(45,106,143,0.04); }
+  .badge{ font-size:11px; font-weight:600; padding:4px 10px; border-radius:99px; }
+  .badge.submitted{ background:rgba(45,106,143,0.1); color:var(--primary-dark); }
+  .badge.review{ background:rgba(232,163,61,0.15); color:var(--accent-dark); }
+  .badge.approved{ background:var(--success-bg); color:var(--success); }
+  .badge.rejected{ background:var(--danger-bg); color:var(--danger); }
+  .status-select{ font-size:12.5px; padding:6px 8px; }
+  .admin-detail{ display:none; margin-top:10px; padding-top:10px; border-top:1px dashed var(--border); font-size:12.8px; color:var(--text-soft); }
+  .admin-detail.show{ display:block; }
+  .admin-row-name{ cursor:pointer; font-weight:600; }
+  .admin-empty{ text-align:center; color:var(--text-faint); padding:50px 0; }
+
+  @media (max-width: 860px){
+    .hero-grid, .form-wrap, .elig-wrap{ grid-template-columns:1fr; }
+    .grid-3, .grid-2, .trust-grid{ grid-template-columns:1fr; }
+    .stats-strip{ grid-template-columns:repeat(2,1fr); }
+    .hero h1{ font-size:29px; }
+    .nav-links{ display:none; }
+    .form-wrap .card{ position:static; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="brand" onclick="go('home')">
+      <div class="brand-mark">SC</div>
+      <div class="brand-text">
+        <div class="name">Success Club Scholarship Portal</div>
+        <div class="tag">AI Club · SDG 4</div>
+      </div>
+    </div>
+    <div class="nav-links">
+      <button class="nav-link" data-nav="home" onclick="go('home')">Home</button>
+      <button class="nav-link" data-nav="about" onclick="go('about')">About Us</button>
+      <button class="nav-link" data-nav="apply" onclick="go('apply')">Applications</button>
+      <button class="nav-link" data-nav="eligibility" onclick="go('eligibility')">Eligibility</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ================= HOME ================= -->
+<section class="page active" id="page-home">
+  <div class="wrap hero">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Applications open · 1 Jul – Mid Aug 2026</div>
+        <h1>Good grades should be enough to keep learning.</h1>
+        <p class="lede">This portal helps students across Pakistan who have the marks to succeed but not the money to continue their education. In one place, you can see which scholarships are open, check whether you're likely to qualify, and apply — for free.</p>
+        <p class="lede">Every application is read by a real person. This is a project by the AI Club, part of Success Club 2026's shared scholarship programme.</p>
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="go('apply')">View scholarships &amp; apply</button>
+          <button class="btn btn-ghost" onclick="go('eligibility')">Check if I qualify</button>
+        </div>
+      </div>
+      <div class="card hero-card">
+        <div class="hero-stat-row"><span class="l">Scholarships open</span><span class="v">4</span></div>
+        <div class="hero-stat-row"><span class="l">Total seats</span><span class="v">70</span></div>
+        <div class="hero-stat-row"><span class="l">Seats already filled</span><span class="v success">43</span></div>
+        <div class="hero-stat-row"><span class="l">Cities covered</span><span class="v">3</span></div>
+        <div class="hero-stat-row"><span class="l">Awarded so far</span><span class="v accent">₨2,340,000</span></div>
+        <div class="hero-stat-row"><span class="l">Next deadline</span><span class="v">15 Aug 2026</span></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="block tight">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Why this portal exists</h2>
+        <p>Across Pakistan, thousands of students from low-income families are academically capable but financially unable to continue school. Their potential goes unrealised not because of ability, but because of cost. This portal exists to close that gap — by making it simple to find funding and apply, without needing a computer expert or an agent to help.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block tight">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>How it works</h2>
+        <p>Three simple steps, from checking your eligibility to hearing back from us.</p>
+      </div>
+      <div class="grid-3">
+        <div class="card step-card">
+          <div class="step-num">1</div>
+          <h3>Check eligibility</h3>
+          <p>Answer three quick questions about your grade level, marks, and household income to see which scholarship tracks are likely to fit you.</p>
+        </div>
+        <div class="card step-card">
+          <div class="step-num">2</div>
+          <h3>Apply online</h3>
+          <p>Fill in one application form with your details and attach your mark sheet, income proof, and ID — all in one sitting.</p>
+        </div>
+        <div class="card step-card">
+          <div class="step-num">3</div>
+          <h3>Hear back</h3>
+          <p>You'll get an application ID as a receipt. Our reviewers use it to track your status and reach you if anything's missing.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block tight">
+    <div class="wrap">
+      <div class="stats-strip">
+        <div class="stat"><div class="num">4</div><div class="lbl">Active scholarship tracks</div></div>
+        <div class="stat"><div class="num">218</div><div class="lbl">Applications received</div></div>
+        <div class="stat"><div class="num">70</div><div class="lbl">Funded seats this cycle</div></div>
+        <div class="stat"><div class="num">3</div><div class="lbl">Karachi · Lahore · Islamabad</div></div>
+      </div>
+    </div>
+  </section>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section class="page" id="page-about">
+  <div class="wrap" style="padding-top:48px;">
+    <div class="section-head">
+      <h2>About the programme</h2>
+      <p>One shared goal, five clubs, one scholarship fund.</p>
+    </div>
+
+    <div style="margin-bottom:40px;">
+      <p style="margin-bottom:14px;">Success Club 2026 brings together five student clubs — Media, Business, Law, Social Sciences, and AI — around a single UN Sustainable Development Goal: <strong>SDG 4, Quality Education.</strong> Rather than running five separate projects, all five clubs are working toward one real, operational outcome: a merit-based scholarship programme for underprivileged students who have the potential to succeed academically but are held back by financial hardship.</p>
+      <p style="margin-bottom:14px;">This portal is the AI Club's contribution — the digital front door for the whole programme. It's where students discover which scholarships are open, understand whether they're likely to qualify, and submit a complete application without needing to visit an office in person.</p>
+      <p>The programme runs from <strong>1 July to Mid August 2026</strong>, and is open to students in <strong>Karachi, Lahore, and Islamabad.</strong></p>
+    </div>
+
+    <section class="block tight" style="padding-top:0;">
+      <div class="section-head">
+        <h2 style="font-size:21px;">The five clubs, and what each one does</h2>
+      </div>
+      <div class="card">
+        <ul class="club-list">
+          <li><span class="cname">AI Club</span><span class="crole">Designs and builds this portal, the eligibility checker, and the application system.</span></li>
+          <li><span class="cname">Media Club</span><span class="crole">Spreads the word to schools and communities, and tells applicants' stories with their permission.</span></li>
+          <li><span class="cname">Business Club</span><span class="crole">Raises the scholarship funds and manages the programme's budget.</span></li>
+          <li><span class="cname">Law Club</span><span class="crole">Writes the application terms, checks compliance, and protects applicants' data.</span></li>
+          <li><span class="cname">Social Sciences Club</span><span class="crole">Researches which communities need support most, and helps set fair eligibility criteria.</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="block tight">
+      <div class="section-head">
+        <h2 style="font-size:21px;">Our promise to applicants</h2>
+        <p>Applying for a scholarship can feel intimidating. Here's what you can expect from us.</p>
+      </div>
+      <div class="trust-grid">
+        <div class="card trust-card">
+          <h3>Your information stays private</h3>
+          <p>Your details are only used to review your application. We don't share your information with anyone outside the review team.</p>
+        </div>
+        <div class="card trust-card">
+          <h3>Every application is reviewed</h3>
+          <p>A real person reads every submission. The eligibility checker is only a quick estimate — it never makes the final decision on its own.</p>
+        </div>
+        <div class="card trust-card">
+          <h3>It's completely free</h3>
+          <p>There is no fee to check your eligibility or to apply. If anyone asks you to pay to apply, it isn't us — please report it.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</section>
+
+<!-- ================= APPLY ================= -->
+<section class="page" id="page-apply">
+  <div class="wrap" style="padding-top:48px;">
+    <div class="section-head">
+      <h2>Scholarships &amp; applications</h2>
+      <p>Below are the scholarships currently open. Have your latest mark sheet, a proof of household income, and your CNIC or B-form ready before you start the form.</p>
+    </div>
+
+    <div class="grid-2" style="margin-bottom:48px;">
+      <div class="card sch-card">
+        <div class="sch-top">
+          <div><div class="sch-title">Matric Continuation Grant</div><div class="sch-city">Karachi</div></div>
+          <div class="sch-amount"><div class="n">₨40,000</div><div class="p">per year</div></div>
+        </div>
+        <div class="sch-desc">For Grade 9–10 students at risk of leaving school due to fees. Covers tuition and books.</div>
+        <div><div class="seats"><span>Seats filled</span><span>18 / 25</span></div><div class="bar"><div class="bar-fill" style="width:72%"></div></div></div>
+        <div class="sch-bottom"><span class="deadline">Deadline · 15 Aug 2026</span></div>
+      </div>
+
+      <div class="card sch-card">
+        <div class="sch-top">
+          <div><div class="sch-title">Intermediate Excellence Award</div><div class="sch-city">Lahore</div></div>
+          <div class="sch-amount"><div class="n">₨60,000</div><div class="p">per year</div></div>
+        </div>
+        <div class="sch-desc">For Grade 11–12 students scoring 80%+ in matric. Covers tuition, exam fees, and books.</div>
+        <div><div class="seats"><span>Seats filled</span><span>9 / 15</span></div><div class="bar"><div class="bar-fill" style="width:60%"></div></div></div>
+        <div class="sch-bottom"><span class="deadline">Deadline · 20 Aug 2026</span></div>
+      </div>
+
+      <div class="card sch-card">
+        <div class="sch-top">
+          <div><div class="sch-title">A-Levels Momentum Scholarship</div><div class="sch-city">Islamabad</div></div>
+          <div class="sch-amount"><div class="n">₨85,000</div><div class="p">per year</div></div>
+        </div>
+        <div class="sch-desc">For students moving from O-Levels into A-Levels with strong academic records.</div>
+        <div><div class="seats"><span>Seats filled</span><span>4 / 10</span></div><div class="bar"><div class="bar-fill" style="width:40%"></div></div></div>
+        <div class="sch-bottom"><span class="deadline">Deadline · 25 Aug 2026</span></div>
+      </div>
+
+      <div class="card sch-card">
+        <div class="sch-top">
+          <div><div class="sch-title">O-Levels Bridge Grant</div><div class="sch-city">Karachi · Lahore · Islamabad</div></div>
+          <div class="sch-amount"><div class="n">₨55,000</div><div class="p">per year</div></div>
+        </div>
+        <div class="sch-desc">Open in all three cities, for students moving from local-board schools into O-Levels.</div>
+        <div><div class="seats"><span>Seats filled</span><span>12 / 20</span></div><div class="bar"><div class="bar-fill" style="width:60%"></div></div></div>
+        <div class="sch-bottom"><span class="deadline">Deadline · 30 Aug 2026</span></div>
+      </div>
+    </div>
+
+    <div class="section-head">
+      <h2 style="font-size:22px;">Application form</h2>
+      <p>Every question below is required unless marked optional. Not sure if you qualify? You can still apply — reviewers consider individual circumstances.</p>
+    </div>
+
+    <div class="form-wrap" style="padding-bottom:70px;">
+      <form id="applyForm" class="card form-card" onsubmit="submitApplication(event)">
+
+        <div class="form-section-title">1. About you</div>
+        <div class="grid-2">
+          <div class="field"><label for="fullName">Full name</label><input id="fullName" type="text" placeholder="As on your school ID" required></div>
+          <div class="field"><label for="dob">Date of birth</label><input id="dob" type="date" required></div>
+        </div>
+        <div class="grid-2">
+          <div class="field"><label for="gender">Gender <span style="font-weight:400;color:var(--text-faint);">(optional)</span></label>
+            <select id="gender"><option value="">Prefer not to say</option><option>Female</option><option>Male</option><option>Other</option></select>
+          </div>
+          <div class="field"><label for="cnic">B-Form / CNIC number</label><input id="cnic" type="text" placeholder="XXXXX-XXXXXXX-X" required></div>
+        </div>
+        <div class="grid-2">
+          <div class="field"><label for="phone">Your phone number</label><input id="phone" type="tel" placeholder="03XX-XXXXXXX" required></div>
+          <div class="field"><label for="email">Email <span style="font-weight:400;color:var(--text-faint);">(optional)</span></label><input id="email" type="email" placeholder="you@example.com"></div>
+        </div>
+
+        <div class="form-section-title">2. Parent or guardian</div>
+        <div class="grid-2">
+          <div class="field"><label for="guardianName">Parent / guardian name</label><input id="guardianName" type="text" required></div>
+          <div class="field"><label for="guardianPhone">Parent / guardian phone number</label><input id="guardianPhone" type="tel" required></div>
+        </div>
+
+        <div class="form-section-title">3. Where you live &amp; study</div>
+        <div class="grid-2">
+          <div class="field"><label for="city">City</label>
+            <select id="city" required><option value="">Select city</option><option>Karachi</option><option>Lahore</option><option>Islamabad</option></select>
+          </div>
+          <div class="field"><label for="school">Current school name</label><input id="school" type="text" required></div>
+        </div>
+        <div class="field"><label for="address">Home address</label><input id="address" type="text" placeholder="House / street / area" required></div>
+        <div class="grid-2">
+          <div class="field"><label for="track">Which scholarship are you applying for?</label>
+            <select id="track" required>
+              <option value="">Select a track</option>
+              <option>Matric Continuation Grant (Karachi)</option>
+              <option>Intermediate Excellence Award (Lahore)</option>
+              <option>A-Levels Momentum Scholarship (Islamabad)</option>
+              <option>O-Levels Bridge Grant (All cities)</option>
+            </select>
+          </div>
+          <div class="field"><label for="grade">Current level</label>
+            <select id="grade" required><option value="">Select level</option><option>Grade 9–10 (Matric)</option><option>Grade 11–12 (Intermediate)</option><option>O-Levels</option><option>A-Levels</option></select>
+          </div>
+        </div>
+
+        <div class="form-section-title">4. Academics &amp; household</div>
+        <div class="grid-2">
+          <div class="field"><label for="marks">Last exam result (%)</label><input id="marks" type="number" min="0" max="100" placeholder="e.g. 82" required></div>
+          <div class="field"><label for="income">Household monthly income (PKR)</label><input id="income" type="number" min="0" placeholder="e.g. 45000" required></div>
+        </div>
+        <div class="field"><label for="siblings">Number of siblings <span style="font-weight:400;color:var(--text-faint);">(optional)</span></label><input id="siblings" type="number" min="0" placeholder="e.g. 3"></div>
+
+        <div class="form-section-title">5. Tell us about yourself</div>
+        <div class="field">
+          <label for="essay">Why do you deserve this scholarship?</label>
+          <textarea id="essay" placeholder="Tell us about your goals and your circumstances, in your own words." required></textarea>
+          <div class="hint">150–300 words is a good length.</div>
+        </div>
+
+        <div class="form-section-title">6. Supporting documents</div>
+        <div class="file-field">
+          <label for="docMarks">Latest mark sheet</label>
+          <input type="file" id="docMarks" accept=".pdf,.jpg,.jpeg,.png" onchange="handleFile('docMarks')" required>
+          <div class="file-status" id="statusMarks"></div>
+        </div>
+        <div class="file-field">
+          <label for="docIncome">Proof of household income</label>
+          <input type="file" id="docIncome" accept=".pdf,.jpg,.jpeg,.png" onchange="handleFile('docIncome')" required>
+          <div class="file-status" id="statusIncome"></div>
+        </div>
+        <div class="file-field">
+          <label for="docCnic">CNIC / B-form copy</label>
+          <input type="file" id="docCnic" accept=".pdf,.jpg,.jpeg,.png" onchange="handleFile('docCnic')" required>
+          <div class="file-status" id="statusCnic"></div>
+        </div>
+        <div class="hint" style="margin-bottom:20px;">Accepted formats: PDF, JPG, PNG. Each file should be under 5 MB.</div>
+
+        <div class="checkbox-row"><input type="checkbox" id="consent" required><label for="consent">I confirm my parent or guardian knows about and supports this application.</label></div>
+        <div class="checkbox-row"><input type="checkbox" id="declaration" required><label for="declaration">I declare that the information I've provided is true and correct.</label></div>
+
+        <button type="submit" class="btn btn-primary" style="margin-top:8px;width:100%;">Submit application</button>
+      </form>
+
+      <div class="card">
+        <div class="receipt-empty" id="receiptEmpty">
+          <h3 style="font-size:16px;margin-bottom:8px;">Your receipt</h3>
+          <p>Once you submit the form, your application ID and a summary will appear here. Save this ID — it's how reviewers will refer to your application.</p>
+        </div>
+        <div class="receipt" id="receiptBox">
+          <span class="stamp">Received for review</span>
+          <div class="receipt-row"><span>Application ID</span><span class="v" id="rId"></span></div>
+          <div class="receipt-row"><span>Submitted</span><span class="v" id="receiptDate"></span></div>
+          <div class="receipt-row"><span>Applicant</span><span class="v" id="rName"></span></div>
+          <div class="receipt-row"><span>City</span><span class="v" id="rCity"></span></div>
+          <div class="receipt-row"><span>Scholarship</span><span class="v" id="rTrack"></span></div>
+          <p style="font-size:12px;margin-top:14px;">We'll contact you using the phone number you provided if we need anything else.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ELIGIBILITY ================= -->
+<section class="page" id="page-eligibility">
+  <div class="wrap" style="padding-top:48px;">
+    <div class="section-head">
+      <h2>Check your eligibility</h2>
+      <p>This is a quick estimate to help you understand your chances — it is not a final decision. We ask about your grade level, marks, and income because those are the main factors reviewers weigh, but every full application is read individually, and reviewers can make exceptions for difficult circumstances.</p>
+    </div>
+
+    <div class="elig-wrap" style="padding-bottom:80px;">
+      <form class="card form-card" onsubmit="checkEligibility(event)">
+        <div class="field"><label for="eGrade">Current level</label>
+          <select id="eGrade" required><option value="">Select level</option><option>Grade 9–10 (Matric)</option><option>Grade 11–12 (Intermediate)</option><option>O-Levels</option><option>A-Levels</option></select>
+        </div>
+        <div class="field"><label for="eIncome">Household monthly income (PKR)</label><input id="eIncome" type="number" min="0" placeholder="e.g. 45000" required></div>
+        <div class="field"><label for="eMarks">Last exam result (%)</label><input id="eMarks" type="number" min="0" max="100" placeholder="e.g. 82" required></div>
+        <button type="submit" class="btn btn-accent" style="width:100%;">Check eligibility</button>
+      </form>
+
+      <div class="card result-panel" id="resultPanel">
+        <div class="result-empty">Fill in the form to see your estimated eligibility.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ADMIN ================= -->
+<section class="page" id="page-admin">
+  <div class="wrap">
+    <div class="admin-gate card" id="adminGate">
+      <h3 style="margin-bottom:6px;">Staff login</h3>
+      <p style="font-size:13px;">This area is for programme reviewers only.</p>
+      <input type="password" id="adminPass" placeholder="Enter staff password">
+      <button class="btn btn-primary" style="width:100%;" onclick="checkAdminPass()">Enter</button>
+      <p id="adminError" style="font-size:12.5px;color:var(--danger);margin-top:10px;display:none;">Incorrect password.</p>
+    </div>
+
+    <div id="adminPanel" style="display:none;padding:48px 0;">
+      <div class="section-head" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;">
+        <div>
+          <h2>Applications</h2>
+          <p>All submitted applications, most recent first.</p>
+        </div>
+        <div style="display:flex;gap:10px;">
+          <button class="btn btn-ghost btn-sm" onclick="loadApplications()">Refresh</button>
+          <button class="btn btn-ghost btn-sm" onclick="logoutAdmin()">Log out</button>
+        </div>
+      </div>
+      <div class="card" style="padding:0;overflow-x:auto;">
+        <table class="admin-table" id="adminTable">
+          <thead><tr><th>Applicant</th><th>Track</th><th>City</th><th>Marks</th><th>Income</th><th>Status</th></tr></thead>
+          <tbody id="adminBody"></tbody>
+        </table>
+        <div class="admin-empty" id="adminEmpty" style="display:none;">No applications yet.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div>
+      <div class="brand-text">
+        <div class="name">Success Club Scholarship Portal</div>
+        <div class="tag">A Success Club 2026 · AI Club project</div>
+      </div>
+      <div class="cities">Karachi · Lahore · Islamabad — 1 Jul to Mid Aug 2026</div>
+    </div>
+    <div class="foot-links"><a onclick="go('admin')">Staff login</a></div>
+  </div>
+</footer>
+
+<script>
+  function go(page){
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + page).classList.add('active');
+    document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active'));
+    const btn = document.querySelector('[data-nav="'+page+'"]');
+    if(btn) btn.classList.add('active');
+    window.scrollTo({top:0, behavior:'smooth'});
+    if(page === 'admin' && document.getElementById('adminPanel').style.display === 'block'){
+      loadApplications();
+    }
+  }
+  document.querySelector('[data-nav="home"]').classList.add('active');
+
+  function handleFile(id){
+    const input = document.getElementById(id);
+    const statusId = 'status' + id.replace('doc','');
+    const statusEl = document.getElementById(statusId);
+    if(input.files && input.files[0]){
+      statusEl.textContent = '✓ ' + input.files[0].name + ' selected';
+      statusEl.classList.add('show');
+    } else {
+      statusEl.classList.remove('show');
+    }
+  }
+
+  async function submitApplication(e){
+    e.preventDefault();
+    const track = document.getElementById('track').value;
+    const city = document.getElementById('city').value;
+    const cityCode = {Karachi:'KHI', Lahore:'LHE', Islamabad:'ISB'}[city] || 'XXX';
+    const id = 'SC26-' + cityCode + '-' + Math.floor(1000 + Math.random()*8999);
+
+    const record = {
+      id: id,
+      timestamp: new Date().toISOString(),
+      status: 'submitted',
+      fullName: document.getElementById('fullName').value,
+      dob: document.getElementById('dob').value,
+      gender: document.getElementById('gender').value,
+      cnic: document.getElementById('cnic').value,
+      phone: document.getElementById('phone').value,
+      email: document.getElementById('email').value,
+      guardianName: document.getElementById('guardianName').value,
+      guardianPhone: document.getElementById('guardianPhone').value,
+      city: city,
+      school: document.getElementById('school').value,
+      address: document.getElementById('address').value,
+      track: track,
+      grade: document.getElementById('grade').value,
+      marks: document.getElementById('marks').value,
+      income: document.getElementById('income').value,
+      siblings: document.getElementById('siblings').value,
+      essay: document.getElementById('essay').value,
+      docMarks: (document.getElementById('docMarks').files[0] || {}).name || '',
+      docIncome: (document.getElementById('docIncome').files[0] || {}).name || '',
+      docCnic: (document.getElementById('docCnic').files[0] || {}).name || ''
+    };
+
+    try{
+      await window.storage.set('application:' + id, JSON.stringify(record), true);
+    } catch(err){
+      console.error('Could not save application', err);
+    }
+
+    document.getElementById('rId').textContent = id;
+    document.getElementById('rName').textContent = record.fullName;
+    document.getElementById('rCity').textContent = city;
+    document.getElementById('rTrack').textContent = track;
+    document.getElementById('receiptDate').textContent = new Date().toLocaleDateString('en-GB', {day:'2-digit', month:'short', year:'numeric'});
+    document.getElementById('receiptEmpty').style.display = 'none';
+    document.getElementById('receiptBox').classList.add('show');
+    document.getElementById('applyForm').reset();
+    document.querySelectorAll('.file-status').forEach(s => s.classList.remove('show'));
+  }
+
+  function checkEligibility(e){
+    e.preventDefault();
+    const income = Number(document.getElementById('eIncome').value);
+    const marks = Number(document.getElementById('eMarks').value);
+    const grade = document.getElementById('eGrade').value;
+    const panel = document.getElementById('resultPanel');
+
+    const incomeOk = income > 0 && income <= 60000;
+    const marksOk = marks >= 70;
+    const eligible = incomeOk && marksOk;
+
+    if(eligible){
+      panel.innerHTML = `
+        <span class="stamp">Likely eligible</span>
+        <div class="result-title">You meet the baseline criteria</div>
+        <div class="result-body">Based on ${grade || 'your level'}, an income of ₨${income.toLocaleString()}/month, and ${marks}% marks, you meet this cycle's income and academic thresholds. Head to the application form to submit your full details.</div>
+        <button class="btn btn-primary" style="margin-top:16px;" onclick="go('apply')">Continue to application</button>`;
+    } else {
+      let reasons = [];
+      if(!incomeOk) reasons.push('household income is above the ₨60,000/month threshold for this cycle');
+      if(!marksOk) reasons.push('your marks are below the 70% threshold');
+      panel.innerHTML = `
+        <span class="stamp" style="background:var(--danger-bg);color:var(--danger);">Not likely eligible this cycle</span>
+        <div class="result-title">This estimate doesn't clear the threshold</div>
+        <div class="result-body">Reason: ${reasons.join(' and ')}. Thresholds are reviewed each cycle, and reviewers do consider individual circumstances — you're still welcome to apply and explain your situation in the essay.</div>
+        <button class="btn btn-ghost" style="margin-top:16px;" onclick="go('apply')">Apply anyway</button>`;
+    }
+  }
+
+  const ADMIN_PASSWORD = 'successclub2026';
+  function checkAdminPass(){
+    const val = document.getElementById('adminPass').value;
+    if(val === ADMIN_PASSWORD){
+      document.getElementById('adminGate').style.display = 'none';
+      document.getElementById('adminPanel').style.display = 'block';
+      loadApplications();
+    } else {
+      document.getElementById('adminError').style.display = 'block';
+    }
+  }
+  function logoutAdmin(){
+    document.getElementById('adminPass').value = '';
+    document.getElementById('adminGate').style.display = 'block';
+    document.getElementById('adminPanel').style.display = 'none';
+  }
+
+  async function loadApplications(){
+    const body = document.getElementById('adminBody');
+    const empty = document.getElementById('adminEmpty');
+    body.innerHTML = '';
+    try{
+      const list = await window.storage.list('application:', true);
+      if(!list || !list.keys || list.keys.length === 0){
+        empty.style.display = 'block';
+        return;
+      }
+      empty.style.display = 'none';
+      const records = [];
+      for(const key of list.keys){
+        try{
+          const res = await window.storage.get(key, true);
+          if(res) records.push(JSON.parse(res.value));
+        } catch(err){ /* skip missing key */ }
+      }
+      records.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+      records.forEach(r => body.appendChild(renderRow(r)));
+    } catch(err){
+      console.error('Could not load applications', err);
+      empty.style.display = 'block';
+      empty.textContent = 'Could not load applications.';
+    }
+  }
+
+  function renderRow(r){
+    const tr = document.createElement('tr');
+    const badgeClass = {submitted:'submitted', review:'review', approved:'approved', rejected:'rejected'}[r.status] || 'submitted';
+    tr.innerHTML = `
+      <td>
+        <div class="admin-row-name" onclick="this.nextElementSibling.classList.toggle('show')">${r.fullName || '—'}</div>
+        <div style="font-size:11.5px;color:var(--text-faint);">${r.id}</div>
+        <div class="admin-detail">
+          DOB: ${r.dob || '—'} · Gender: ${r.gender || '—'}<br>
+          CNIC: ${r.cnic || '—'} · Phone: ${r.phone || '—'} · Email: ${r.email || '—'}<br>
+          Guardian: ${r.guardianName || '—'} (${r.guardianPhone || '—'})<br>
+          School: ${r.school || '—'} · Address: ${r.address || '—'}<br>
+          Siblings: ${r.siblings || '—'}<br>
+          Documents: ${r.docMarks || 'none'}, ${r.docIncome || 'none'}, ${r.docCnic || 'none'}<br>
+          Essay: ${r.essay || '—'}
+        </div>
+      </td>
+      <td>${r.track || '—'}</td>
+      <td>${r.city || '—'}</td>
+      <td>${r.marks || '—'}%</td>
+      <td>₨${Number(r.income || 0).toLocaleString()}</td>
+      <td>
+        <select class="status-select" onchange="updateStatus('${r.id}', this.value)">
+          <option value="submitted" ${r.status==='submitted'?'selected':''}>Submitted</option>
+          <option value="review" ${r.status==='review'?'selected':''}>Under review</option>
+          <option value="approved" ${r.status==='approved'?'selected':''}>Approved</option>
+          <option value="rejected" ${r.status==='rejected'?'selected':''}>Rejected</option>
+        </select>
+      </td>`;
+    return tr;
+  }
+
+  async function updateStatus(id, status){
+    try{
+      const res = await window.storage.get('application:' + id, true);
+      if(!res) return;
+      const record = JSON.parse(res.value);
+      record.status = status;
+      await window.storage.set('application:' + id, JSON.stringify(record), true);
+    } catch(err){
+      console.error('Could not update status', err);
+    }
+  }
+</script>
+
+</body>
+</html>
