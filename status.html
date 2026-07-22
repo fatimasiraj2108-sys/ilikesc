@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Status — Success Club Scholarship Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">
+      <div class="brand-mark">SC</div>
+      <div class="brand-text">
+        <div class="name">Success Club Scholarship Portal</div>
+        <div class="tag">Scholarship Programme</div>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a class="nav-link" href="index.html">Home</a>
+      <a class="nav-link" href="about.html">About Us</a>
+      <a class="nav-link" href="eligibility.html">Eligibility</a>
+      <a class="nav-link" href="apply.html">Applications</a>
+      <a class="nav-link" href="faq.html">FAQ</a>
+      <a class="nav-link active" href="status.html">Status</a>
+      <a class="nav-link" href="chat.html">AI Chat</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap" style="padding-top:48px;padding-bottom:70px;max-width:560px;">
+  <div class="section-head">
+    <h2>Check your status</h2>
+    <p>Enter the Application ID you were given when you submitted. We only show your name, status, age, and marks here — nothing else, to keep your details private.</p>
+  </div>
+
+  <form class="card form-card" id="statusForm" onsubmit="lookupApplication(event)">
+    <div class="field"><label for="tId">Application ID</label><input id="tId" type="text" placeholder="e.g. SC26-KHI-4821" required></div>
+    <button type="submit" class="btn btn-primary" style="width:100%;">Check status</button>
+    <p id="statusError" style="font-size:12.5px;color:var(--danger);margin-top:10px;display:none;">We couldn't find an application with that ID. Double-check it and try again.</p>
+  </form>
+
+  <div class="card" id="statusResult" style="display:none;margin-top:20px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <h3 id="stName" style="font-size:18px;"></h3>
+      <span class="stamp" id="stStamp"></span>
+    </div>
+    <div class="receipt-row"><span>Status</span><span class="v" id="stStatusText"></span></div>
+    <div class="receipt-row"><span>Age</span><span class="v" id="stAge"></span></div>
+    <div class="receipt-row"><span>Marks</span><span class="v" id="stMarks"></span></div>
+    <p style="font-size:12px;margin-top:16px;">Questions about your status? Try the <a href="chat.html" style="color:var(--primary);text-decoration:underline;">AI Chat</a> or check the <a href="faq.html" style="color:var(--primary);text-decoration:underline;">FAQ</a>.</p>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div>
+      <div class="brand-text">
+        <div class="name">Success Club Scholarship Portal</div>
+        <div class="tag">A Success Club 2026 initiative</div>
+      </div>
+      <div class="cities">Karachi · Lahore · Islamabad — 1 Jul to Mid Aug 2026</div>
+    </div>
+  </div>
+</footer>
+
+<script type="module" src="firebase-config.js"></script>
+<script>
+  const STATUS_MAP = {
+    submitted: { text: 'Waiting',              style: '' },
+    review:    { text: 'Waiting',              style: 'background:rgba(232,163,61,0.15);color:var(--accent-dark);' },
+    approved:  { text: 'Accepted',             style: '' },
+    rejected:  { text: 'Deferred / Rejected',  style: 'background:var(--danger-bg);color:var(--danger);' }
+  };
+
+  function calcAge(dobStr){
+    if(!dobStr) return '—';
+    const dob = new Date(dobStr);
+    if(isNaN(dob)) return '—';
+    const diff = Date.now() - dob.getTime();
+    return Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+  }
+
+  async function lookupApplication(e){
+    e.preventDefault();
+    const id = document.getElementById('tId').value.trim().toUpperCase();
+    const errorEl = document.getElementById('statusError');
+    const resultEl = document.getElementById('statusResult');
+    errorEl.style.display = 'none';
+    resultEl.style.display = 'none';
+
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Checking…';
+
+    const record = await window.storeGetApplication(id);
+
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Check status';
+
+    if(!record){
+      errorEl.style.display = 'block';
+      return;
+    }
+
+    // Only ever read/display these four fields — never CNIC, phone,
+    // address, guardian details, or the essay on this page.
+    document.getElementById('stName').textContent = record.fullName || 'Applicant';
+    document.getElementById('stAge').textContent = calcAge(record.dob);
+    document.getElementById('stMarks').textContent = (record.marks || '—') + '%';
+
+    const s = STATUS_MAP[record.status] || STATUS_MAP.submitted;
+    document.getElementById('stStatusText').textContent = s.text;
+    const stamp = document.getElementById('stStamp');
+    stamp.textContent = s.text;
+    stamp.setAttribute('style', s.style);
+
+    resultEl.style.display = 'block';
+  }
+</script>
+
+</body>
+</html>
