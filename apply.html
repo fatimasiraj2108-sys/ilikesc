@@ -16,168 +16,28 @@
       <div class="brand-mark">SC</div>
       <div class="brand-text">
         <div class="name">Success Club Scholarship Portal</div>
-        <div class="tag">AI Club · SDG 4</div>
+        <div class="tag">Scholarship Programme</div>
       </div>
     </a>
     <div class="nav-links">
       <a class="nav-link" href="index.html">Home</a>
       <a class="nav-link" href="about.html">About Us</a>
+      <a class="nav-link" href="eligibility.html">Eligibility</a>
       <a class="nav-link active" href="apply.html">Applications</a>
+      <a class="nav-link" href="faq.html">FAQ</a>
+      <a class="nav-link" href="track.html">Track Application</a>
       <a class="nav-link" href="chat.html">AI Chat</a>
     </div>
   </div>
 </nav>
 
-<!-- ============ ELIGIBILITY (much more detail) ============ -->
-<div class="wrap" style="padding-top:48px;" id="eligibility">
-  <div class="section-head">
-    <h2>Check your eligibility</h2>
-    <p>Before you apply, it helps to understand how eligibility is decided. This section explains the criteria in full, lets you run a quick estimate, and answers the questions we get asked most.</p>
-  </div>
-
-  <div style="margin-bottom:36px;">
-    <p style="margin-bottom:14px;">Each scholarship track has its own income and academic thresholds, because the cost of tuition and the competitiveness of applicants differ by level and city. The table below shows exactly what each track looks for. These are <strong>guidelines, not hard cut-offs</strong> — every full application is still read by a reviewer, and reviewers can and do make exceptions for difficult circumstances explained in your essay.</p>
-  </div>
-
-  <div class="card" style="margin-bottom:36px;padding:0;overflow-x:auto;">
-    <table class="thresh-table">
-      <thead>
-        <tr><th>Scholarship track</th><th>City</th><th>Grade level</th><th>Max household income</th><th>Min. last exam result</th></tr>
-      </thead>
-      <tbody>
-        <tr><td class="name">Matric Continuation Grant</td><td>Karachi</td><td>Grade 9–10</td><td>₨60,000 / month</td><td>70%</td></tr>
-        <tr><td class="name">Intermediate Excellence Award</td><td>Lahore</td><td>Grade 11–12</td><td>₨60,000 / month</td><td>80%</td></tr>
-        <tr><td class="name">A-Levels Momentum Scholarship</td><td>Islamabad</td><td>A-Levels</td><td>₨70,000 / month</td><td>75%</td></tr>
-        <tr><td class="name">O-Levels Bridge Grant</td><td>Karachi · Lahore · Islamabad</td><td>O-Levels</td><td>₨60,000 / month</td><td>70%</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="grid-2" style="margin-bottom:36px;">
-    <div class="card">
-      <h3 style="font-size:15.5px;margin-bottom:8px;">What counts as "household income"?</h3>
-      <p style="font-size:13.5px;">We mean the combined monthly income of everyone currently contributing to your household — usually your parents or guardians, and any older siblings who are working. If income is irregular (e.g. daily-wage work), use a fair monthly average. You'll be asked to share a Google Drive link to proof of this (a salary slip, an employer letter, or a income certificate from your union council).</p>
-    </div>
-    <div class="card">
-      <h3 style="font-size:15.5px;margin-bottom:8px;">What if I don't clearly qualify?</h3>
-      <p style="font-size:13.5px;">Apply anyway. The numbers above are starting guidelines, not a strict cut-off. Reviewers weigh your full circumstances — number of dependents, medical or family hardship, and your academic trajectory — not just two numbers. Use the essay to explain anything the form doesn't capture.</p>
-    </div>
-  </div>
-
-  <div class="elig-wrap" style="padding-bottom:20px;">
-    <form class="card form-card" id="eligForm" onsubmit="checkEligibility(event)">
-      <div class="field">
-        <label for="eTrack">Which scholarship track?</label>
-        <select id="eTrack" required>
-          <option value="">Select a track</option>
-          <option value="matric">Matric Continuation Grant (Karachi)</option>
-          <option value="intermediate">Intermediate Excellence Award (Lahore)</option>
-          <option value="alevels">A-Levels Momentum Scholarship (Islamabad)</option>
-          <option value="olevels">O-Levels Bridge Grant (All cities)</option>
-        </select>
-      </div>
-      <div class="field"><label for="eIncome">Household monthly income (PKR)</label><input id="eIncome" type="number" min="0" placeholder="e.g. 45000" required></div>
-      <div class="field"><label for="eMarks">Last exam result (%)</label><input id="eMarks" type="number" min="0" max="100" placeholder="e.g. 82" required></div>
-      <button type="submit" class="btn btn-accent" style="width:100%;">Check eligibility</button>
-    </form>
-
-    <div class="card result-panel" id="resultPanel">
-      <div class="result-empty">Fill in the form to see your estimated eligibility for the track you select.</div>
-    </div>
-  </div>
-</div>
-
-<section class="block tight">
-  <div class="wrap">
-    <div class="section-head">
-      <h2 style="font-size:21px;">Frequently asked questions</h2>
-    </div>
-    <div class="card faq">
-      <details>
-        <summary>Can I apply to more than one scholarship track?</summary>
-        <p>Apply to the one track that matches your current grade level and city. If you're unsure which one fits, use the eligibility checker above or ask the chatbot.</p>
-      </details>
-      <details>
-        <summary>What documents will I need?</summary>
-        <p>Your latest mark sheet, proof of household income, and a copy of your CNIC or B-form. You won't upload files directly — you'll share Google Drive links instead (explained in the application form below).</p>
-      </details>
-      <details>
-        <summary>Is there a fee to apply?</summary>
-        <p>No. Checking eligibility and applying are completely free. If anyone asks you to pay, it isn't part of this programme — please report it.</p>
-      </details>
-      <details>
-        <summary>How long does review take?</summary>
-        <p>Typically two to three weeks after your track's deadline. You'll be contacted using the phone number on your application, so make sure it's correct and reachable.</p>
-      </details>
-      <details>
-        <summary>What happens if my application is approved?</summary>
-        <p>A programme coordinator will contact your parent or guardian directly to confirm your details and walk through the next steps, including how funds are disbursed to your school.</p>
-      </details>
-      <details>
-        <summary>Can my parent or guardian apply on my behalf?</summary>
-        <p>Yes — a guardian can fill out the form for you. Just make sure the student's own details (name, marks, CNIC) are entered accurately, since that's who the scholarship is for.</p>
-      </details>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SCHOLARSHIPS ============ -->
-<section class="block tight">
-  <div class="wrap">
-    <div class="section-head">
-      <h2>Open scholarships</h2>
-      <p>Four tracks are currently open. Seats are filled on a rolling basis, so apply as early as you can.</p>
-    </div>
-    <div class="grid-2">
-      <div class="card sch-card">
-        <div class="sch-top">
-          <div><div class="sch-title">Matric Continuation Grant</div><div class="sch-city">Karachi</div></div>
-          <div class="sch-amount"><div class="n">₨40,000</div><div class="p">per year</div></div>
-        </div>
-        <div class="sch-desc">For Grade 9–10 students at risk of leaving school due to fees. Covers tuition and books.</div>
-        <div><div class="seats"><span>Seats filled</span><span>18 / 25</span></div><div class="bar"><div class="bar-fill" style="width:72%"></div></div></div>
-        <div class="sch-bottom"><span class="deadline">Deadline · 15 Aug 2026</span></div>
-      </div>
-
-      <div class="card sch-card">
-        <div class="sch-top">
-          <div><div class="sch-title">Intermediate Excellence Award</div><div class="sch-city">Lahore</div></div>
-          <div class="sch-amount"><div class="n">₨60,000</div><div class="p">per year</div></div>
-        </div>
-        <div class="sch-desc">For Grade 11–12 students scoring 80%+ in matric. Covers tuition, exam fees, and books.</div>
-        <div><div class="seats"><span>Seats filled</span><span>9 / 15</span></div><div class="bar"><div class="bar-fill" style="width:60%"></div></div></div>
-        <div class="sch-bottom"><span class="deadline">Deadline · 20 Aug 2026</span></div>
-      </div>
-
-      <div class="card sch-card">
-        <div class="sch-top">
-          <div><div class="sch-title">A-Levels Momentum Scholarship</div><div class="sch-city">Islamabad</div></div>
-          <div class="sch-amount"><div class="n">₨85,000</div><div class="p">per year</div></div>
-        </div>
-        <div class="sch-desc">For students moving from O-Levels into A-Levels with strong academic records.</div>
-        <div><div class="seats"><span>Seats filled</span><span>4 / 10</span></div><div class="bar"><div class="bar-fill" style="width:40%"></div></div></div>
-        <div class="sch-bottom"><span class="deadline">Deadline · 25 Aug 2026</span></div>
-      </div>
-
-      <div class="card sch-card">
-        <div class="sch-top">
-          <div><div class="sch-title">O-Levels Bridge Grant</div><div class="sch-city">Karachi · Lahore · Islamabad</div></div>
-          <div class="sch-amount"><div class="n">₨55,000</div><div class="p">per year</div></div>
-        </div>
-        <div class="sch-desc">Open in all three cities, for students moving from local-board schools into O-Levels.</div>
-        <div><div class="seats"><span>Seats filled</span><span>12 / 20</span></div><div class="bar"><div class="bar-fill" style="width:60%"></div></div></div>
-        <div class="sch-bottom"><span class="deadline">Deadline · 30 Aug 2026</span></div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ============ APPLICATION FORM ============ -->
 <section class="block tight" id="apply-form">
   <div class="wrap">
     <div class="section-head">
       <h2 style="font-size:22px;">Application form</h2>
-      <p>Every question below is required unless marked optional. Not sure if you qualify? Apply anyway — reviewers consider individual circumstances.</p>
+      <p>Every question below is required unless marked optional. Not sure if you qualify? Check the <a href="eligibility.html" style="color:var(--primary);text-decoration:underline;">Eligibility page</a> first, or apply anyway — reviewers consider individual circumstances.</p>
     </div>
 
     <div class="form-wrap" style="padding-bottom:70px;">
@@ -279,7 +139,7 @@
           <div class="receipt-row"><span>Applicant</span><span class="v" id="rName"></span></div>
           <div class="receipt-row"><span>City</span><span class="v" id="rCity"></span></div>
           <div class="receipt-row"><span>Scholarship</span><span class="v" id="rTrack"></span></div>
-          <p style="font-size:12px;margin-top:14px;">We'll contact you using the phone number you provided if we need anything else.</p>
+          <p style="font-size:12px;margin-top:14px;">We'll contact you using the phone number you provided if we need anything else. You can check your status anytime on the <a href="track.html" style="color:var(--primary);text-decoration:underline;">Track Application</a> page using this ID.</p>
         </div>
       </div>
     </div>
@@ -291,7 +151,7 @@
     <div>
       <div class="brand-text">
         <div class="name">Success Club Scholarship Portal</div>
-        <div class="tag">A Success Club 2026 · AI Club project</div>
+        <div class="tag">A Success Club 2026 initiative</div>
       </div>
       <div class="cities">Karachi · Lahore · Islamabad — 1 Jul to Mid Aug 2026</div>
     </div>
@@ -300,43 +160,6 @@
 
 <script type="module" src="firebase-config.js"></script>
 <script>
-  const TRACKS = {
-    matric:       { name: 'Matric Continuation Grant',        city: 'Karachi',                        income: 60000, marks: 70 },
-    intermediate: { name: 'Intermediate Excellence Award',    city: 'Lahore',                          income: 60000, marks: 80 },
-    alevels:      { name: 'A-Levels Momentum Scholarship',    city: 'Islamabad',                       income: 70000, marks: 75 },
-    olevels:      { name: 'O-Levels Bridge Grant',             city: 'Karachi, Lahore, Islamabad',      income: 60000, marks: 70 }
-  };
-
-  function checkEligibility(e){
-    e.preventDefault();
-    const trackKey = document.getElementById('eTrack').value;
-    const income = Number(document.getElementById('eIncome').value);
-    const marks = Number(document.getElementById('eMarks').value);
-    const panel = document.getElementById('resultPanel');
-    const track = TRACKS[trackKey];
-
-    const incomeOk = income > 0 && income <= track.income;
-    const marksOk = marks >= track.marks;
-    const eligible = incomeOk && marksOk;
-
-    if(eligible){
-      panel.innerHTML = `
-        <span class="stamp">Likely eligible</span>
-        <div class="result-title">You meet ${track.name}'s baseline criteria</div>
-        <div class="result-body">With an income of ₨${income.toLocaleString()}/month and ${marks}% marks, you're within this track's ₨${track.income.toLocaleString()} income cap and ${track.marks}% marks threshold. Scroll down to the application form to submit your full details.</div>
-        <a class="btn btn-primary" style="margin-top:16px;display:inline-block;" href="#apply-form">Continue to application</a>`;
-    } else {
-      let reasons = [];
-      if(!incomeOk) reasons.push(`household income is above this track's ₨${track.income.toLocaleString()}/month threshold`);
-      if(!marksOk) reasons.push(`your marks are below this track's ${track.marks}% threshold`);
-      panel.innerHTML = `
-        <span class="stamp" style="background:var(--danger-bg);color:var(--danger);">Not likely eligible for ${track.name}</span>
-        <div class="result-title">This estimate doesn't clear the threshold</div>
-        <div class="result-body">Reason: ${reasons.join(' and ')}. Thresholds are reviewed each cycle, and reviewers do consider individual circumstances — you're still welcome to apply and explain your situation in the essay.</div>
-        <a class="btn btn-ghost" style="margin-top:16px;display:inline-block;" href="#apply-form">Apply anyway</a>`;
-    }
-  }
-
   async function submitApplication(e){
     e.preventDefault();
 

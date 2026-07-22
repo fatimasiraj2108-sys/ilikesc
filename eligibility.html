@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Check Your Eligibility — Success Club Scholarship Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">
+      <div class="brand-mark">SC</div>
+      <div class="brand-text">
+        <div class="name">Success Club Scholarship Portal</div>
+        <div class="tag">Scholarship Programme</div>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a class="nav-link" href="index.html">Home</a>
+      <a class="nav-link" href="about.html">About Us</a>
+      <a class="nav-link active" href="eligibility.html">Eligibility</a>
+      <a class="nav-link" href="apply.html">Applications</a>
+      <a class="nav-link" href="faq.html">FAQ</a>
+      <a class="nav-link" href="track.html">Track Application</a>
+      <a class="nav-link" href="chat.html">AI Chat</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap" style="padding-top:48px;">
+  <div class="section-head">
+    <h2>Check your eligibility</h2>
+    <p>Before you apply, it helps to understand how eligibility is decided. This page explains the criteria in full and gives you an estimated <strong>percentage chance</strong> of being accepted onto the track you pick — based on your marks and household income compared to that track's usual range.</p>
+  </div>
+
+  <div style="margin-bottom:36px;">
+    <p style="margin-bottom:14px;">Each scholarship track has its own income and academic thresholds, because the cost of tuition and the competitiveness of applicants differ by level and city. The table below shows exactly what each track looks for. These are <strong>guidelines, not hard cut-offs</strong> — every full application is still read by a reviewer, and reviewers can and do make exceptions for difficult circumstances explained in your essay.</p>
+  </div>
+
+  <div class="card" style="margin-bottom:36px;padding:0;overflow-x:auto;">
+    <table class="thresh-table">
+      <thead>
+        <tr><th>Scholarship track</th><th>City</th><th>Grade level</th><th>Max household income</th><th>Min. last exam result</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="name">Matric Continuation Grant</td><td>Karachi</td><td>Grade 9–10</td><td>₨60,000 / month</td><td>70%</td></tr>
+        <tr><td class="name">Intermediate Excellence Award</td><td>Lahore</td><td>Grade 11–12</td><td>₨60,000 / month</td><td>80%</td></tr>
+        <tr><td class="name">A-Levels Momentum Scholarship</td><td>Islamabad</td><td>A-Levels</td><td>₨70,000 / month</td><td>75%</td></tr>
+        <tr><td class="name">O-Levels Bridge Grant</td><td>Karachi · Lahore · Islamabad</td><td>O-Levels</td><td>₨60,000 / month</td><td>70%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:36px;">
+    <div class="card">
+      <h3 style="font-size:15.5px;margin-bottom:8px;">What counts as "household income"?</h3>
+      <p style="font-size:13.5px;">We mean the combined monthly income of everyone currently contributing to your household — usually your parents or guardians, and any older siblings who are working. If income is irregular (e.g. daily-wage work), use a fair monthly average.</p>
+    </div>
+    <div class="card">
+      <h3 style="font-size:15.5px;margin-bottom:8px;">What if my percentage is low?</h3>
+      <p style="font-size:13.5px;">The number below is a rough estimate, not a decision. Reviewers weigh your full circumstances — dependents, medical or family hardship, and your academic trajectory — not just two numbers. Apply anyway and use the essay to explain anything the form doesn't capture.</p>
+    </div>
+  </div>
+
+  <div class="elig-wrap" style="padding-bottom:60px;">
+    <form class="card form-card" id="eligForm" onsubmit="checkEligibility(event)">
+      <div class="field">
+        <label for="eTrack">Which scholarship track?</label>
+        <select id="eTrack" required>
+          <option value="">Select a track</option>
+          <option value="matric">Matric Continuation Grant (Karachi)</option>
+          <option value="intermediate">Intermediate Excellence Award (Lahore)</option>
+          <option value="alevels">A-Levels Momentum Scholarship (Islamabad)</option>
+          <option value="olevels">O-Levels Bridge Grant (All cities)</option>
+        </select>
+      </div>
+      <div class="field"><label for="eIncome">Household monthly income (PKR)</label><input id="eIncome" type="number" min="0" placeholder="e.g. 45000" required></div>
+      <div class="field"><label for="eMarks">Last exam result (%)</label><input id="eMarks" type="number" min="0" max="100" placeholder="e.g. 82" required></div>
+      <button type="submit" class="btn btn-accent" style="width:100%;">Calculate my chances</button>
+    </form>
+
+    <div class="card result-panel" id="resultPanel">
+      <div class="result-empty">Fill in the form to see your estimated chance for the track you select.</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div>
+      <div class="brand-text">
+        <div class="name">Success Club Scholarship Portal</div>
+        <div class="tag">A Success Club 2026 initiative</div>
+      </div>
+      <div class="cities">Karachi · Lahore · Islamabad — 1 Jul to Mid Aug 2026</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const TRACKS = {
+    matric:       { name: 'Matric Continuation Grant',       income: 60000, marks: 70 },
+    intermediate: { name: 'Intermediate Excellence Award',   income: 60000, marks: 80 },
+    alevels:      { name: 'A-Levels Momentum Scholarship',   income: 70000, marks: 75 },
+    olevels:      { name: 'O-Levels Bridge Grant',           income: 60000, marks: 70 }
+  };
+
+  function checkEligibility(e){
+    e.preventDefault();
+    const trackKey = document.getElementById('eTrack').value;
+    const income = Number(document.getElementById('eIncome').value);
+    const marks = Number(document.getElementById('eMarks').value);
+    const track = TRACKS[trackKey];
+    const panel = document.getElementById('resultPanel');
+
+    // --- Rough estimate only, not a real scoring model ---
+    // Marks: every point above the threshold adds to the chance,
+    // every point below subtracts, roughly 1.4% per point.
+    const marksDiff = marks - track.marks;
+    const marksScore = 50 + marksDiff * 1.4;
+
+    // Income: how far below (or above) the cap you are, as a
+    // percentage of the cap, weighted at up to 35 points either way.
+    const incomeDiff = (track.income - income) / track.income;
+    const incomeScore = 50 + Math.max(-1, Math.min(1, incomeDiff)) * 35;
+
+    let chance = Math.round((marksScore * 0.55) + (incomeScore * 0.45));
+    chance = Math.max(4, Math.min(96, chance));
+
+    const tier = chance >= 65 ? '' : chance >= 35 ? 'mid' : 'low';
+    const tierWord = chance >= 65 ? 'Good' : chance >= 35 ? 'Moderate' : 'Low';
+
+    panel.innerHTML = `
+      <div class="chance-wrap">
+        <div class="chance-num ${tier}">${chance}%</div>
+        <div class="chance-sub">${tierWord} estimated chance for ${track.name}</div>
+      </div>
+      <div class="chance-bar"><div class="chance-fill ${tier}" style="width:${chance}%"></div></div>
+      <ul class="chance-factors">
+        <li><span>Your marks</span><span>${marks}% (track asks for ${track.marks}%+)</span></li>
+        <li><span>Your household income</span><span>₨${income.toLocaleString()} (cap ₨${track.income.toLocaleString()})</span></li>
+      </ul>
+      <p style="font-size:12.5px;margin-top:14px;">This is only a rough estimate to help you plan — it isn't a decision, and every application is read individually. Even a low percentage doesn't mean you shouldn't apply.</p>
+      <a class="btn btn-primary" style="margin-top:14px;display:inline-block;" href="apply.html">Continue to application</a>`;
+  }
+</script>
+
+</body>
+</html>

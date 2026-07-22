@@ -201,6 +201,29 @@ footer .cities{ font-size:12px; color:var(--text-faint); margin-top:4px; }
 .admin-toolbar{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:18px; }
 .admin-toolbar input, .admin-toolbar select{ width:auto; min-width:160px; }
 
+.chance-wrap{ text-align:center; padding:10px 0 4px; }
+.chance-num{ font-family:'Poppins',sans-serif; font-size:46px; font-weight:700; color:var(--primary-dark); }
+.chance-num.mid{ color:var(--accent-dark); }
+.chance-num.low{ color:var(--danger); }
+.chance-sub{ font-size:12.5px; color:var(--text-faint); margin-bottom:14px; }
+.chance-bar{ height:12px; border-radius:99px; background:var(--bg); border:1px solid var(--border); overflow:hidden; margin-bottom:18px; }
+.chance-fill{ height:100%; border-radius:99px; background:var(--primary); transition:width .5s ease; }
+.chance-fill.mid{ background:var(--accent); }
+.chance-fill.low{ background:var(--danger); }
+.chance-factors{ text-align:left; font-size:13px; }
+.chance-factors li{ display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px dotted var(--border); }
+.chance-factors li:last-child{ border-bottom:none; }
+
+.timeline{ display:flex; margin:26px 0 10px; }
+.timeline-step{ flex:1; text-align:center; position:relative; }
+.timeline-step:not(:first-child)::before{ content:""; position:absolute; top:8px; left:-50%; width:100%; height:2px; background:var(--border); z-index:0; }
+.timeline-step.reached:not(:first-child)::before{ background:var(--primary); }
+.timeline-dot{ width:16px; height:16px; border-radius:50%; background:var(--border); margin:0 auto 8px; position:relative; z-index:1; }
+.timeline-step.reached .timeline-dot{ background:var(--primary); }
+.timeline-step.current .timeline-dot{ box-shadow:0 0 0 4px rgba(45,106,143,0.18); }
+.timeline-label{ font-size:11.5px; color:var(--text-faint); }
+.timeline-step.reached .timeline-label{ color:var(--text); font-weight:600; }
+
 @media (max-width: 860px){
   .hero-grid, .form-wrap, .elig-wrap{ grid-template-columns:1fr; }
   .grid-3, .grid-2, .trust-grid, .univ-grid{ grid-template-columns:1fr; }
