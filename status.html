@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Status — Success Club Scholarship Portal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -22,6 +22,7 @@
     <div class="nav-links">
       <a class="nav-link" href="index.html">Home</a>
       <a class="nav-link" href="about.html">About Us</a>
+      <a class="nav-link" href="universities.html">Universities</a>
       <a class="nav-link" href="eligibility.html">Eligibility</a>
       <a class="nav-link" href="apply.html">Applications</a>
       <a class="nav-link" href="faq.html">FAQ</a>
@@ -30,15 +31,15 @@
   </div>
 </nav>
 
-<div class="wrap" style="padding-top:48px;padding-bottom:70px;max-width:560px;">
-  <div class="section-head">
+<div class="wrap" style="padding-top:52px;padding-bottom:70px;max-width:560px;">
+  <div class="section-head reveal">
     <h2>Check your status</h2>
     <p>Enter the Application ID you were given when you submitted. We only show your name, status, age, and marks here — nothing else, to keep your details private.</p>
   </div>
 
-  <form class="card form-card" id="statusForm" onsubmit="lookupApplication(event)">
+  <form class="card form-card reveal" id="statusForm" onsubmit="lookupApplication(event)">
     <div class="field"><label for="tId">Application ID</label><input id="tId" type="text" placeholder="e.g. SC26-KHI-4821" required></div>
-    <button type="submit" class="btn btn-primary" style="width:100%;">Check status</button>
+    <button type="submit" class="btn btn-solid" style="width:100%;">Check status</button>
     <p id="statusError" style="font-size:12.5px;color:var(--danger);margin-top:10px;display:none;">We couldn't find an application with that ID. Double-check it and try again.</p>
   </form>
 
@@ -50,7 +51,7 @@
     <div class="receipt-row"><span>Status</span><span class="v" id="stStatusText"></span></div>
     <div class="receipt-row"><span>Age</span><span class="v" id="stAge"></span></div>
     <div class="receipt-row"><span>Marks</span><span class="v" id="stMarks"></span></div>
-    <p style="font-size:12px;margin-top:16px;">Questions about your status? Check the <a href="faq.html" style="color:var(--primary);text-decoration:underline;">FAQ</a> or contact us directly.</p>
+    <p style="font-size:12px;margin-top:16px;">Questions about your status? Check the <a href="faq.html" style="color:var(--hero);text-decoration:underline;">FAQ</a> or contact us directly.</p>
   </div>
 </div>
 
@@ -67,10 +68,11 @@
 </footer>
 
 <script type="module" src="firebase-config.js"></script>
+<script src="motion.js"></script>
 <script>
   const STATUS_MAP = {
     submitted: { text: 'Waiting',              style: '' },
-    review:    { text: 'Waiting',              style: 'background:rgba(232,163,61,0.15);color:var(--accent-dark);' },
+    review:    { text: 'Waiting',              style: 'background:rgba(232,163,61,0.15);color:var(--gold-deep);' },
     approved:  { text: 'Accepted',             style: '' },
     rejected:  { text: 'Deferred / Rejected',  style: 'background:var(--danger-bg);color:var(--danger);' }
   };
@@ -105,8 +107,6 @@
       return;
     }
 
-    // Only ever read/display these four fields — never CNIC, phone,
-    // address, guardian details, or the essay on this page.
     document.getElementById('stName').textContent = record.fullName || 'Applicant';
     document.getElementById('stAge').textContent = calcAge(record.dob);
     document.getElementById('stMarks').textContent = (record.marks || '—') + '%';

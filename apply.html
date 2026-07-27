@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Applications — Success Club Scholarship Portal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -22,6 +22,7 @@
     <div class="nav-links">
       <a class="nav-link" href="index.html">Home</a>
       <a class="nav-link" href="about.html">About Us</a>
+      <a class="nav-link" href="universities.html">Universities</a>
       <a class="nav-link" href="eligibility.html">Eligibility</a>
       <a class="nav-link active" href="apply.html">Applications</a>
       <a class="nav-link" href="faq.html">FAQ</a>
@@ -30,19 +31,66 @@
   </div>
 </nav>
 
+<section class="block tight">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>Open scholarships</h2>
+      <p>Four tracks are currently open. Seats are filled on a rolling basis, so apply as early as you can.</p>
+    </div>
+    <div class="grid-2 reveal">
+      <div class="card sch-card">
+        <div class="sch-top">
+          <div><div class="sch-title">Matric Continuation Grant</div><div class="sch-city">Karachi</div></div>
+          <div class="sch-amount"><div class="n">₨40,000</div><div class="p">per year</div></div>
+        </div>
+        <div class="sch-desc">For Grade 9–10 students at risk of leaving school due to fees. Covers tuition and books.</div>
+        <div><div class="seats"><span>Seats filled</span><span>18 / 25</span></div><div class="bar"><div class="bar-fill" style="width:72%"></div></div></div>
+        <div class="sch-bottom"><span class="deadline">Deadline · 15 Aug 2026</span></div>
+      </div>
 
-<!-- ============ APPLICATION FORM ============ -->
+      <div class="card sch-card">
+        <div class="sch-top">
+          <div><div class="sch-title">Intermediate Excellence Award</div><div class="sch-city">Lahore</div></div>
+          <div class="sch-amount"><div class="n">₨60,000</div><div class="p">per year</div></div>
+        </div>
+        <div class="sch-desc">For Grade 11–12 students scoring 80%+ in matric. Covers tuition, exam fees, and books.</div>
+        <div><div class="seats"><span>Seats filled</span><span>9 / 15</span></div><div class="bar"><div class="bar-fill" style="width:60%"></div></div></div>
+        <div class="sch-bottom"><span class="deadline">Deadline · 20 Aug 2026</span></div>
+      </div>
+
+      <div class="card sch-card">
+        <div class="sch-top">
+          <div><div class="sch-title">A-Levels Momentum Scholarship</div><div class="sch-city">Islamabad</div></div>
+          <div class="sch-amount"><div class="n">₨85,000</div><div class="p">per year</div></div>
+        </div>
+        <div class="sch-desc">For students moving from O-Levels into A-Levels with strong academic records.</div>
+        <div><div class="seats"><span>Seats filled</span><span>4 / 10</span></div><div class="bar"><div class="bar-fill" style="width:40%"></div></div></div>
+        <div class="sch-bottom"><span class="deadline">Deadline · 25 Aug 2026</span></div>
+      </div>
+
+      <div class="card sch-card">
+        <div class="sch-top">
+          <div><div class="sch-title">O-Levels Bridge Grant</div><div class="sch-city">Karachi · Lahore · Islamabad</div></div>
+          <div class="sch-amount"><div class="n">₨55,000</div><div class="p">per year</div></div>
+        </div>
+        <div class="sch-desc">Open in all three cities, for students moving from local-board schools into O-Levels.</div>
+        <div><div class="seats"><span>Seats filled</span><span>12 / 20</span></div><div class="bar"><div class="bar-fill" style="width:60%"></div></div></div>
+        <div class="sch-bottom"><span class="deadline">Deadline · 30 Aug 2026</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="block tight" id="apply-form">
   <div class="wrap">
-    <div class="section-head">
+    <div class="section-head reveal">
       <h2 style="font-size:22px;">Application form</h2>
-      <p>Every question below is required unless marked optional. Not sure if you qualify? Check the <a href="eligibility.html" style="color:var(--primary);text-decoration:underline;">Eligibility page</a> first, or apply anyway — reviewers consider individual circumstances.</p>
+      <p>Every question below is required unless marked optional. Not sure if you qualify? Check the <a href="eligibility.html" style="color:var(--hero);text-decoration:underline;">Eligibility page</a> first, or apply anyway — reviewers consider individual circumstances.</p>
     </div>
 
-    <div class="form-wrap" style="padding-bottom:70px;">
+    <div class="form-wrap reveal" style="padding-bottom:70px;">
       <form id="applyForm" class="card form-card" onsubmit="submitApplication(event)">
 
-        <!-- honeypot: real users never see or fill this in -->
         <div class="honeypot" aria-hidden="true">
           <label for="website">Leave this field empty</label>
           <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
@@ -54,20 +102,30 @@
           <div class="field"><label for="dob">Date of birth</label><input id="dob" type="date" required></div>
         </div>
         <div class="grid-2">
-          <div class="field"><label for="gender">Gender <span style="font-weight:400;color:var(--text-faint);">(optional)</span></label>
+          <div class="field"><label for="gender">Gender <span style="font-weight:400;color:var(--ink-faint);">(optional)</span></label>
             <select id="gender"><option value="">Prefer not to say</option><option>Female</option><option>Male</option><option>Other</option></select>
           </div>
           <div class="field"><label for="cnic">B-Form / CNIC number</label><input id="cnic" type="text" placeholder="XXXXX-XXXXXXX-X" required></div>
         </div>
         <div class="grid-2">
           <div class="field"><label for="phone">Your phone number</label><input id="phone" type="tel" placeholder="03XX-XXXXXXX" required></div>
-          <div class="field"><label for="email">Email <span style="font-weight:400;color:var(--text-faint);">(optional)</span></label><input id="email" type="email" placeholder="you@example.com"></div>
+          <div class="field"><label for="email">Email <span style="font-weight:400;color:var(--ink-faint);">(optional)</span></label><input id="email" type="email" placeholder="you@example.com"></div>
         </div>
 
         <div class="form-section-title">2. Parent or guardian</div>
         <div class="grid-2">
           <div class="field"><label for="guardianName">Parent / guardian name</label><input id="guardianName" type="text" required></div>
           <div class="field"><label for="guardianPhone">Parent / guardian phone number</label><input id="guardianPhone" type="tel" required></div>
+        </div>
+        <div class="field">
+          <label for="guardianEmployment">Guardian's employment status</label>
+          <select id="guardianEmployment" required>
+            <option value="">Select one</option>
+            <option value="stable">Stable, full-time employment</option>
+            <option value="irregular">Irregular or daily-wage work</option>
+            <option value="unemployed">Currently unemployed</option>
+            <option value="unable">Guardian deceased or unable to work</option>
+          </select>
         </div>
 
         <div class="form-section-title">3. Where you live &amp; study</div>
@@ -98,7 +156,20 @@
           <div class="field"><label for="marks">Last exam result (%)</label><input id="marks" type="number" min="0" max="100" placeholder="e.g. 82" required></div>
           <div class="field"><label for="income">Household monthly income (PKR)</label><input id="income" type="number" min="0" placeholder="e.g. 45000" required></div>
         </div>
-        <div class="field"><label for="siblings">Number of siblings <span style="font-weight:400;color:var(--text-faint);">(optional)</span></label><input id="siblings" type="number" min="0" placeholder="e.g. 3"></div>
+        <div class="grid-2">
+          <div class="field"><label for="familySize">People in your household (including you)</label><input id="familySize" type="number" min="1" placeholder="e.g. 5" required></div>
+          <div class="field"><label for="schoolCosts">Current monthly school/college costs (PKR)</label><input id="schoolCosts" type="number" min="0" placeholder="e.g. 6000" required></div>
+        </div>
+        <div class="field">
+          <label for="hardship">Family hardship this year</label>
+          <select id="hardship" required>
+            <option value="">Select one</option>
+            <option value="none">No significant hardship</option>
+            <option value="some">Some hardship (e.g. single income, minor health costs)</option>
+            <option value="significant">Significant hardship (e.g. job loss, major medical costs, loss of a guardian's income)</option>
+          </select>
+        </div>
+        <div class="field"><label for="siblings">Number of siblings <span style="font-weight:400;color:var(--ink-faint);">(optional)</span></label><input id="siblings" type="number" min="0" placeholder="e.g. 3"></div>
 
         <div class="form-section-title">5. Tell us about yourself</div>
         <div class="field">
@@ -123,13 +194,13 @@
         <div class="checkbox-row"><input type="checkbox" id="consent" required><label for="consent">I confirm my parent or guardian knows about and supports this application.</label></div>
         <div class="checkbox-row"><input type="checkbox" id="declaration" required><label for="declaration">I declare that the information I've provided is true and correct.</label></div>
 
-        <button type="submit" class="btn btn-primary" style="margin-top:8px;width:100%;">Submit application</button>
+        <button type="submit" class="btn btn-solid" style="margin-top:8px;width:100%;">Submit application</button>
       </form>
 
       <div class="card">
         <div class="receipt-empty" id="receiptEmpty">
           <h3 style="font-size:16px;margin-bottom:8px;">Your receipt</h3>
-          <p>Once you submit the form, your application ID and a summary will appear here. Save this ID — it's how reviewers will refer to your application.</p>
+          <p>Once you submit the form, your application ID and a summary will appear here. Save this ID — you'll use it on the Status page.</p>
         </div>
         <div class="receipt" id="receiptBox">
           <span class="stamp">Received for review</span>
@@ -138,7 +209,7 @@
           <div class="receipt-row"><span>Applicant</span><span class="v" id="rName"></span></div>
           <div class="receipt-row"><span>City</span><span class="v" id="rCity"></span></div>
           <div class="receipt-row"><span>Scholarship</span><span class="v" id="rTrack"></span></div>
-          <p style="font-size:12px;margin-top:14px;">We'll contact you using the phone number you provided if we need anything else. You can check your status anytime on the <a href="status.html" style="color:var(--primary);text-decoration:underline;">Status</a> page using this ID.</p>
+          <p style="font-size:12px;margin-top:14px;">We'll contact you using the phone number you provided if we need anything else. You can check your status anytime on the <a href="status.html" style="color:var(--hero);text-decoration:underline;">Status</a> page using this ID.</p>
         </div>
       </div>
     </div>
@@ -158,14 +229,13 @@
 </footer>
 
 <script type="module" src="firebase-config.js"></script>
+<script src="motion.js"></script>
 <script>
   async function submitApplication(e){
     e.preventDefault();
 
-    // Honeypot check — if this hidden field got filled in, it's almost
-    // certainly a bot. Fail silently, no explanation given to the bot.
     if(document.getElementById('website').value){
-      return;
+      return; // honeypot tripped — silently drop
     }
 
     const submitBtn = e.target.querySelector('button[type="submit"]');
@@ -189,6 +259,7 @@
       email: document.getElementById('email').value,
       guardianName: document.getElementById('guardianName').value,
       guardianPhone: document.getElementById('guardianPhone').value,
+      guardianEmployment: document.getElementById('guardianEmployment').value,
       city: city,
       school: document.getElementById('school').value,
       address: document.getElementById('address').value,
@@ -196,6 +267,9 @@
       grade: document.getElementById('grade').value,
       marks: document.getElementById('marks').value,
       income: document.getElementById('income').value,
+      familySize: document.getElementById('familySize').value,
+      schoolCosts: document.getElementById('schoolCosts').value,
+      hardship: document.getElementById('hardship').value,
       siblings: document.getElementById('siblings').value,
       essay: document.getElementById('essay').value,
       driveMarks: document.getElementById('driveMarks').value,

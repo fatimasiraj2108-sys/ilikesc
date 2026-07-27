@@ -6,7 +6,7 @@
 <title>Staff Panel</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -29,7 +29,7 @@
     <p style="font-size:13px;">This page is for programme reviewers only. Applicants never see this link.</p>
     <input type="email" id="adminEmail" placeholder="Staff email" style="margin-bottom:10px;">
     <input type="password" id="adminPass" placeholder="Password">
-    <button class="btn btn-primary" style="width:100%;" onclick="checkAdminPass()">Enter</button>
+    <button class="btn btn-solid" style="width:100%;" onclick="checkAdminPass()">Enter</button>
     <p id="adminError" style="font-size:12.5px;color:var(--danger);margin-top:10px;display:none;">Incorrect email or password.</p>
   </div>
 
@@ -146,17 +146,21 @@
     return label + ': <a href="' + url + '" target="_blank" rel="noopener">view document</a>';
   }
 
+  const HARDSHIP_LABEL = { none: 'No significant hardship', some: 'Some hardship', significant: 'Significant hardship' };
+  const EMPLOYMENT_LABEL = { stable: 'Stable employment', irregular: 'Irregular / daily-wage', unemployed: 'Unemployed', unable: 'Deceased / unable to work' };
+
   function renderRow(r){
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>
         <div class="admin-row-name" onclick="this.nextElementSibling.classList.toggle('show')">${r.fullName || '—'}</div>
-        <div style="font-size:11.5px;color:var(--text-faint);">${r.id}</div>
+        <div style="font-size:11.5px;color:var(--ink-faint);">${r.id}</div>
         <div class="admin-detail">
           DOB: ${r.dob || '—'} · Gender: ${r.gender || '—'}<br>
           CNIC: ${r.cnic || '—'} · Phone: ${r.phone || '—'} · Email: ${r.email || '—'}<br>
-          Guardian: ${r.guardianName || '—'} (${r.guardianPhone || '—'})<br>
+          Guardian: ${r.guardianName || '—'} (${r.guardianPhone || '—'}) · ${EMPLOYMENT_LABEL[r.guardianEmployment] || '—'}<br>
           School: ${r.school || '—'} · Address: ${r.address || '—'}<br>
+          Family size: ${r.familySize || '—'} · School/college costs: ₨${Number(r.schoolCosts || 0).toLocaleString()}/mo · Hardship: ${HARDSHIP_LABEL[r.hardship] || '—'}<br>
           Siblings: ${r.siblings || '—'}<br>
           ${driveLink(r.driveMarks, 'Mark sheet')}<br>
           ${driveLink(r.driveIncome, 'Income proof')}<br>
@@ -187,7 +191,7 @@
 
   function exportCsv(){
     if(ALL_RECORDS.length === 0) return;
-    const cols = ['id','fullName','cnic','phone','email','guardianName','guardianPhone','city','school','track','grade','marks','income','status','timestamp'];
+    const cols = ['id','fullName','cnic','phone','email','guardianName','guardianPhone','guardianEmployment','city','school','track','grade','marks','income','familySize','schoolCosts','hardship','status','timestamp'];
     const rows = [cols.join(',')];
     ALL_RECORDS.forEach(r => {
       rows.push(cols.map(c => `"${String(r[c] ?? '').replace(/"/g,'""')}"`).join(','));

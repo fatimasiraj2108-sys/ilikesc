@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Universities &amp; Colleges — Success Club Scholarship Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">
+      <div class="brand-mark">SC</div>
+      <div class="brand-text">
+        <div class="name">Success Club Scholarship Portal</div>
+        <div class="tag">Scholarship Programme</div>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a class="nav-link" href="index.html">Home</a>
+      <a class="nav-link" href="about.html">About Us</a>
+      <a class="nav-link active" href="universities.html">Universities</a>
+      <a class="nav-link" href="eligibility.html">Eligibility</a>
+      <a class="nav-link" href="apply.html">Applications</a>
+      <a class="nav-link" href="faq.html">FAQ</a>
+      <a class="nav-link" href="status.html">Status</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap" style="padding-top:52px;padding-bottom:70px;">
+  <div class="section-head reveal">
+    <h2>Universities &amp; colleges in Pakistan</h2>
+    <p>A directory of where your scholarship track can take you. Click any card to open that institution's real admissions page. This list is informational — it doesn't mean you're guaranteed admission, only that these are real, reputable options worth aiming for.</p>
+  </div>
+
+  <div class="uni-tabs reveal">
+    <button class="uni-tab active" data-tab="universities" onclick="showTab('universities')">Universities</button>
+    <button class="uni-tab" data-tab="colleges" onclick="showTab('colleges')">Colleges</button>
+    <button class="uni-tab" data-tab="affordable" onclick="showTab('affordable')">Affordable Schooling</button>
+  </div>
+
+  <div class="directory-panel active reveal" id="panel-universities">
+    <div class="directory-grid">
+      <a class="card hoverable directory-card" href="https://lums.edu.pk" target="_blank" rel="noopener">
+        <div class="directory-mark">LUMS</div>
+        <div class="directory-name">Lahore University of Management Sciences</div>
+        <div class="directory-city">Lahore</div>
+        <div class="directory-desc">Business, law, humanities, sciences, and engineering.</div>
+      </a>
+      <a class="card hoverable directory-card" href="https://www.iba.edu.pk" target="_blank" rel="noopener">
+        <div class="directory-mark">IBA</div>
+        <div class="directory-name">Institute of Business Administration</div>
+        <div class="directory-city">Karachi</div>
+        <div class="directory-desc">Business, economics, computer science, and social sciences.</div>
+      </a>
+      <a class="card hoverable directory-card" href="https://nust.edu.pk" target="_blank" rel="noopener">
+        <div class="directory-mark">NUST</div>
+        <div class="directory-name">National University of Sciences &amp; Technology</div>
+        <div class="directory-city">Islamabad</div>
+        <div class="directory-desc">Strong engineering, computing, business, and sciences.</div>
+      </a>
+      <a class="card hoverable directory-card" href="https://www.nu.edu.pk" target="_blank" rel="noopener">
+        <div class="directory-mark">FAST</div>
+        <div class="directory-name">FAST National University (NUCES)</div>
+        <div class="directory-city">Multiple campuses</div>
+        <div class="directory-desc">Computer science, software engineering, AI, and engineering.</div>
+      </a>
+      <a class="card hoverable directory-card" href="https://habib.edu.pk" target="_blank" rel="noopener">
+        <div class="directory-mark">HU</div>
+        <div class="directory-name">Habib University</div>
+        <div class="directory-city">Karachi</div>
+        <div class="directory-desc">Liberal arts and sciences, engineering, and computer science.</div>
+      </a>
+      <a class="card hoverable directory-card" href="https://www.aku.edu" target="_blank" rel="noopener">
+        <div class="directory-mark">AKU</div>
+        <div class="directory-name">Aga Khan University</div>
+        <div class="directory-city">Karachi</div>
+        <div class="directory-desc">Medicine, nursing, education, and research.</div>
+      </a>
+      <a class="card hoverable directory-card" href="https://www.comsats.edu.pk" target="_blank" rel="noopener">
+        <div class="directory-mark">CUI</div>
+        <div class="directory-name">COMSATS University</div>
+        <div class="directory-city">Multiple campuses</div>
+        <div class="directory-desc">Computing, sciences, and engineering nationwide.</div>
+      </a>
+      <a class="card hoverable directory-card" href="https://www.uet.edu.pk" target="_blank" rel="noopener">
+        <div class="directory-mark">UET</div>
+        <div class="directory-name">UET Lahore</div>
+        <div class="directory-city">Lahore</div>
+        <div class="directory-desc">Engineering, technology, and architecture.</div>
+      </a>
+      <a class="card hoverable directory-card" href="https://www.pieas.edu.pk" target="_blank" rel="noopener">
+        <div class="directory-mark">PIEAS</div>
+        <div class="directory-name">PIEAS</div>
+        <div class="directory-city">Islamabad</div>
+        <div class="directory-desc">Engineering, nuclear sciences, and physics, research-focused.</div>
+      </a>
+      <a class="card hoverable directory-card" href="https://itu.edu.pk" target="_blank" rel="noopener">
+        <div class="directory-mark">ITU</div>
+        <div class="directory-name">Information Technology University</div>
+        <div class="directory-city">Lahore</div>
+        <div class="directory-desc">Computer science, data science, and engineering.</div>
+      </a>
+      <a class="card hoverable directory-card" href="https://giki.edu.pk" target="_blank" rel="noopener">
+        <div class="directory-mark">GIKI</div>
+        <div class="directory-name">Ghulam Ishaq Khan Institute</div>
+        <div class="directory-city">Topi, KP</div>
+        <div class="directory-desc">Selective, engineering and technology focused.</div>
+      </a>
+      <a class="card hoverable directory-card" href="https://bnu.edu.pk" target="_blank" rel="noopener">
+        <div class="directory-mark">BNU</div>
+        <div class="directory-name">Beaconhouse National University</div>
+        <div class="directory-city">Lahore</div>
+        <div class="directory-desc">Design, architecture, liberal arts, and media.</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="directory-panel" id="panel-colleges">
+    <div class="directory-grid">
+      <a class="card hoverable directory-card" href="https://www.fccollege.edu.pk" target="_blank" rel="noopener">
+        <div class="directory-mark">FCC</div>
+        <div class="directory-name">Forman Christian College</div>
+        <div class="directory-city">Lahore</div>
+        <div class="directory-desc">Business, sciences, arts, engineering, and social sciences.</div>
+      </a>
+      <a class="card hoverable directory-card" href="https://www.gcu.edu.pk" target="_blank" rel="noopener">
+        <div class="directory-mark">GCU</div>
+        <div class="directory-name">Government College University</div>
+        <div class="directory-city">Lahore</div>
+        <div class="directory-desc">One of Pakistan's oldest colleges — liberal arts, sciences, and business.</div>
+      </a>
+      <a class="card hoverable directory-card" href="https://www.kinnaird.edu.pk" target="_blank" rel="noopener">
+        <div class="directory-mark">KC</div>
+        <div class="directory-name">Kinnaird College for Women</div>
+        <div class="directory-city">Lahore</div>
+        <div class="directory-desc">Sciences, social sciences, arts, and economics.</div>
+      </a>
+      <a class="card hoverable directory-card" href="https://pu.edu.pk" target="_blank" rel="noopener">
+        <div class="directory-mark">PU</div>
+        <div class="directory-name">University of the Punjab</div>
+        <div class="directory-city">Lahore</div>
+        <div class="directory-desc">Sciences, arts, commerce, engineering, and law.</div>
+      </a>
+      <a class="card hoverable directory-card" href="https://uok.edu.pk" target="_blank" rel="noopener">
+        <div class="directory-mark">KU</div>
+        <div class="directory-name">University of Karachi</div>
+        <div class="directory-city">Karachi</div>
+        <div class="directory-desc">Sciences, arts, engineering, business, and education.</div>
+      </a>
+      <a class="card hoverable directory-card" href="https://usindh.edu.pk" target="_blank" rel="noopener">
+        <div class="directory-mark">SU</div>
+        <div class="directory-name">University of Sindh</div>
+        <div class="directory-city">Hyderabad</div>
+        <div class="directory-desc">Engineering, sciences, arts, and business.</div>
+      </a>
+      <a class="card hoverable directory-card" href="https://ucp.edu.pk" target="_blank" rel="noopener">
+        <div class="directory-mark">UCP</div>
+        <div class="directory-name">University of Central Punjab</div>
+        <div class="directory-city">Lahore</div>
+        <div class="directory-desc">Business, engineering, law, sciences, and social sciences.</div>
+      </a>
+      <a class="card hoverable directory-card" href="https://www.pide.org.pk" target="_blank" rel="noopener">
+        <div class="directory-mark">PIDE</div>
+        <div class="directory-name">Pakistan Institute of Development Economics</div>
+        <div class="directory-city">Islamabad</div>
+        <div class="directory-desc">Economics, development studies, and policy research.</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="directory-panel" id="panel-affordable">
+    <div class="card reveal" style="margin-bottom:20px;">
+      <h3 style="font-size:16px;margin-bottom:10px;">Lower-cost schooling options to know about</h3>
+      <p style="font-size:13.5px;margin-bottom:10px;">If tuition is the barrier right now — before or alongside applying for a scholarship — a few general categories are worth knowing about. Costs and admission rules change often and vary by campus, so always confirm current fees directly with the school rather than relying on any number online, including ours.</p>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <h3 style="font-size:15px;margin-bottom:8px;">Government schools &amp; colleges</h3>
+        <p style="font-size:13.3px;">Free or very low-cost, run by the provincial education department. Visit your nearest government school office with a birth certificate or B-form to ask about admission.</p>
+      </div>
+      <div class="card">
+        <h3 style="font-size:15px;margin-bottom:8px;">Low-fee private schools</h3>
+        <p style="font-size:13.3px;">Many neighbourhoods have private schools with modest monthly fees and merit-based fee waivers. Ask directly about their fee structure and whether they offer need-based concessions.</p>
+      </div>
+      <div class="card">
+        <h3 style="font-size:15px;margin-bottom:8px;">Distance &amp; open learning</h3>
+        <p style="font-size:13.3px;">Allama Iqbal Open University (AIOU) offers matric, intermediate, and degree programmes at low cost with flexible study, a solid option if commuting or full-time attendance isn't possible.</p>
+      </div>
+      <div class="card">
+        <h3 style="font-size:15px;margin-bottom:8px;">Scholarships at your current school</h3>
+        <p style="font-size:13.3px;">Before switching schools, ask your current school's administration if they offer merit or need-based fee concessions — many do, and it can be simpler than transferring.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div>
+      <div class="brand-text">
+        <div class="name">Success Club Scholarship Portal</div>
+        <div class="tag">A Success Club 2026 initiative</div>
+      </div>
+      <div class="cities">Karachi · Lahore · Islamabad — 1 Jul to Mid Aug 2026</div>
+    </div>
+  </div>
+</footer>
+
+<script src="motion.js"></script>
+<script>
+  function showTab(tab){
+    document.querySelectorAll('.uni-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+    document.querySelectorAll('.directory-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + tab).classList.add('active');
+  }
+</script>
+</body>
+</html>

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Check Your Eligibility — Success Club Scholarship Portal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -22,6 +22,7 @@
     <div class="nav-links">
       <a class="nav-link" href="index.html">Home</a>
       <a class="nav-link" href="about.html">About Us</a>
+      <a class="nav-link" href="universities.html">Universities</a>
       <a class="nav-link active" href="eligibility.html">Eligibility</a>
       <a class="nav-link" href="apply.html">Applications</a>
       <a class="nav-link" href="faq.html">FAQ</a>
@@ -30,17 +31,33 @@
   </div>
 </nav>
 
-<div class="wrap" style="padding-top:48px;">
-  <div class="section-head">
+<div class="wrap" style="padding-top:52px;">
+  <div class="section-head reveal">
     <h2>Check your eligibility</h2>
-    <p>Before you apply, it helps to understand how eligibility is decided. This page explains the criteria in full and gives you an estimated <strong>percentage chance</strong> of being accepted onto the track you pick — based on your marks and household income compared to that track's usual range.</p>
+    <p>Before you apply, it helps to understand how eligibility is decided. This page explains the full picture — not just marks and income — and gives you an estimated <strong>percentage chance</strong> based on six factors we actually weigh.</p>
   </div>
 
-  <div style="margin-bottom:36px;">
-    <p style="margin-bottom:14px;">Each scholarship track has its own income and academic thresholds, because the cost of tuition and the competitiveness of applicants differ by level and city. The table below shows exactly what each track looks for. These are <strong>guidelines, not hard cut-offs</strong> — every full application is still read by a reviewer, and reviewers can and do make exceptions for difficult circumstances explained in your essay.</p>
+  <div class="reveal" style="margin-bottom:32px;max-width:76ch;">
+    <p style="margin-bottom:14px;">Scholarships are merit-based, but "merit" here means more than a single exam score. We weigh your academic performance alongside your household's real financial situation — because two students with the same marks can be in very different circumstances. These are <strong>guidelines, not hard cut-offs</strong>: every full application is still read by a reviewer, who can account for anything the numbers don't capture.</p>
   </div>
 
-  <div class="card" style="margin-bottom:36px;padding:0;overflow-x:auto;">
+  <div class="card reveal" style="margin-bottom:36px;padding:0;overflow-x:auto;">
+    <table class="thresh-table weight-table">
+      <thead>
+        <tr><th>Factor</th><th>Weight</th><th>Why it matters</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="name">Academic marks</td><td class="wt">30%</td><td>Your last exam result, measured against your chosen track's threshold.</td></tr>
+        <tr><td class="name">Household income</td><td class="wt">30%</td><td>Combined monthly income against your track's income cap.</td></tr>
+        <tr><td class="name">Family hardship</td><td class="wt">15%</td><td>Circumstances like job loss, medical costs, or losing a guardian's income.</td></tr>
+        <tr><td class="name">Family size</td><td class="wt">10%</td><td>More dependents sharing the same household income means more financial pressure.</td></tr>
+        <tr><td class="name">School / college costs</td><td class="wt">10%</td><td>How much of your household's income your current fees already take up.</td></tr>
+        <tr><td class="name">Guardian employment</td><td class="wt">5%</td><td>Whether your guardian's income is stable, irregular, or absent.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card reveal" style="margin-bottom:36px;padding:0;overflow-x:auto;">
     <table class="thresh-table">
       <thead>
         <tr><th>Scholarship track</th><th>City</th><th>Grade level</th><th>Max household income</th><th>Min. last exam result</th></tr>
@@ -54,18 +71,18 @@
     </table>
   </div>
 
-  <div class="grid-2" style="margin-bottom:36px;">
+  <div class="grid-2 reveal" style="margin-bottom:36px;">
     <div class="card">
-      <h3 style="font-size:15.5px;margin-bottom:8px;">What counts as "household income"?</h3>
-      <p style="font-size:13.5px;">We mean the combined monthly income of everyone currently contributing to your household — usually your parents or guardians, and any older siblings who are working. If income is irregular (e.g. daily-wage work), use a fair monthly average.</p>
+      <h3 style="font-size:15.5px;margin-bottom:8px;">What counts as "family hardship"?</h3>
+      <p style="font-size:13.5px;">Things like a guardian losing their job, a serious illness or ongoing medical costs in the family, a recent death of a working family member, or any situation that's made this year financially harder than usual.</p>
     </div>
     <div class="card">
       <h3 style="font-size:15.5px;margin-bottom:8px;">What if my percentage is low?</h3>
-      <p style="font-size:13.5px;">The number below is a rough estimate, not a decision. Reviewers weigh your full circumstances — dependents, medical or family hardship, and your academic trajectory — not just two numbers. Apply anyway and use the essay to explain anything the form doesn't capture.</p>
+      <p style="font-size:13.5px;">This is a rough estimate to help you plan, not a decision. Reviewers weigh your full circumstances, including anything you explain in the application essay. Apply anyway.</p>
     </div>
   </div>
 
-  <div class="elig-wrap" style="padding-bottom:60px;">
+  <div class="elig-wrap reveal" style="padding-bottom:70px;">
     <form class="card form-card" id="eligForm" onsubmit="checkEligibility(event)">
       <div class="field">
         <label for="eTrack">Which scholarship track?</label>
@@ -77,13 +94,34 @@
           <option value="olevels">O-Levels Bridge Grant (All cities)</option>
         </select>
       </div>
-      <div class="field"><label for="eIncome">Household monthly income (PKR)</label><input id="eIncome" type="number" min="0" placeholder="e.g. 45000" required></div>
       <div class="field"><label for="eMarks">Last exam result (%)</label><input id="eMarks" type="number" min="0" max="100" placeholder="e.g. 82" required></div>
+      <div class="field"><label for="eIncome">Household monthly income (PKR)</label><input id="eIncome" type="number" min="0" placeholder="e.g. 45000" required></div>
+      <div class="field"><label for="eFamilySize">Number of people in your household (including you)</label><input id="eFamilySize" type="number" min="1" placeholder="e.g. 5" required></div>
+      <div class="field"><label for="eCosts">Current monthly school/college costs (PKR)</label><input id="eCosts" type="number" min="0" placeholder="e.g. 6000" required></div>
+      <div class="field">
+        <label for="eHardship">Family hardship this year</label>
+        <select id="eHardship" required>
+          <option value="">Select one</option>
+          <option value="none">No significant hardship</option>
+          <option value="some">Some hardship (e.g. single income, minor health costs)</option>
+          <option value="significant">Significant hardship (e.g. job loss, major medical costs, loss of a guardian's income)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="eEmployment">Guardian's employment status</label>
+        <select id="eEmployment" required>
+          <option value="">Select one</option>
+          <option value="stable">Stable, full-time employment</option>
+          <option value="irregular">Irregular or daily-wage work</option>
+          <option value="unemployed">Currently unemployed</option>
+          <option value="unable">Guardian deceased or unable to work</option>
+        </select>
+      </div>
       <button type="submit" class="btn btn-accent" style="width:100%;">Calculate my chances</button>
     </form>
 
     <div class="card result-panel" id="resultPanel">
-      <div class="result-empty">Fill in the form to see your estimated chance for the track you select.</div>
+      <div class="result-empty">Fill in the form to see your estimated chance, with a breakdown of how each factor contributed.</div>
     </div>
   </div>
 </div>
@@ -100,6 +138,7 @@
   </div>
 </footer>
 
+<script src="motion.js"></script>
 <script>
   const TRACKS = {
     matric:       { name: 'Matric Continuation Grant',       income: 60000, marks: 70 },
@@ -108,30 +147,41 @@
     olevels:      { name: 'O-Levels Bridge Grant',           income: 60000, marks: 70 }
   };
 
+  const HARDSHIP_SCORE = { none: 20, some: 60, significant: 95 };
+  const EMPLOYMENT_SCORE = { stable: 20, irregular: 60, unemployed: 85, unable: 100 };
+
+  function clamp(n, lo, hi){ return Math.max(lo, Math.min(hi, n)); }
+
   function checkEligibility(e){
     e.preventDefault();
     const trackKey = document.getElementById('eTrack').value;
-    const income = Number(document.getElementById('eIncome').value);
-    const marks = Number(document.getElementById('eMarks').value);
     const track = TRACKS[trackKey];
+    const marks = Number(document.getElementById('eMarks').value);
+    const income = Number(document.getElementById('eIncome').value);
+    const familySize = Number(document.getElementById('eFamilySize').value);
+    const costs = Number(document.getElementById('eCosts').value);
+    const hardship = document.getElementById('eHardship').value;
+    const employment = document.getElementById('eEmployment').value;
     const panel = document.getElementById('resultPanel');
 
-    // --- Rough estimate only, not a real scoring model ---
-    // Marks: every point above the threshold adds to the chance,
-    // every point below subtracts, roughly 1.4% per point.
-    const marksDiff = marks - track.marks;
-    const marksScore = 50 + marksDiff * 1.4;
+    // --- Rough estimate only, not a real predictive model ---
+    const marksScore = clamp(50 + (marks - track.marks) * 1.3, 0, 100);
+    const incomeScore = clamp(50 + ((track.income - income) / track.income) * 60, 0, 100);
+    const familyScore = clamp((familySize - 1) * 14, 0, 100);
+    const costsScore = clamp((costs / Math.max(income, 1)) * 150, 0, 100);
+    const hardshipScore = HARDSHIP_SCORE[hardship] ?? 20;
+    const employmentScore = EMPLOYMENT_SCORE[employment] ?? 20;
 
-    // Income: how far below (or above) the cap you are, as a
-    // percentage of the cap, weighted at up to 35 points either way.
-    const incomeDiff = (track.income - income) / track.income;
-    const incomeScore = 50 + Math.max(-1, Math.min(1, incomeDiff)) * 35;
-
-    let chance = Math.round((marksScore * 0.55) + (incomeScore * 0.45));
-    chance = Math.max(4, Math.min(96, chance));
+    const weighted = marksScore * 0.30 + incomeScore * 0.30 + hardshipScore * 0.15
+                    + familyScore * 0.10 + costsScore * 0.10 + employmentScore * 0.05;
+    const chance = Math.round(clamp(weighted, 4, 96));
 
     const tier = chance >= 65 ? '' : chance >= 35 ? 'mid' : 'low';
     const tierWord = chance >= 65 ? 'Good' : chance >= 35 ? 'Moderate' : 'Low';
+
+    function factorRow(label, score){
+      return `<div class="factor-row"><span class="factor-label">${label}</span><div class="factor-bar"><div class="factor-fill" style="width:${Math.round(score)}%"></div></div><span class="factor-pct">${Math.round(score)}%</span></div>`;
+    }
 
     panel.innerHTML = `
       <div class="chance-wrap">
@@ -139,12 +189,16 @@
         <div class="chance-sub">${tierWord} estimated chance for ${track.name}</div>
       </div>
       <div class="chance-bar"><div class="chance-fill ${tier}" style="width:${chance}%"></div></div>
-      <ul class="chance-factors">
-        <li><span>Your marks</span><span>${marks}% (track asks for ${track.marks}%+)</span></li>
-        <li><span>Your household income</span><span>₨${income.toLocaleString()} (cap ₨${track.income.toLocaleString()})</span></li>
-      </ul>
-      <p style="font-size:12.5px;margin-top:14px;">This is only a rough estimate to help you plan — it isn't a decision, and every application is read individually. Even a low percentage doesn't mean you shouldn't apply.</p>
-      <a class="btn btn-primary" style="margin-top:14px;display:inline-block;" href="apply.html">Continue to application</a>`;
+      <div class="factor-grid">
+        ${factorRow('Academic marks (30%)', marksScore)}
+        ${factorRow('Household income (30%)', incomeScore)}
+        ${factorRow('Family hardship (15%)', hardshipScore)}
+        ${factorRow('Family size (10%)', familyScore)}
+        ${factorRow('School/college costs (10%)', costsScore)}
+        ${factorRow('Guardian employment (5%)', employmentScore)}
+      </div>
+      <p style="font-size:12.5px;margin-top:16px;">This is only a rough estimate to help you plan — it isn't a decision, and every application is read individually. Even a low percentage doesn't mean you shouldn't apply.</p>
+      <a class="btn btn-solid" style="margin-top:14px;display:inline-block;" href="apply.html">Continue to application</a>`;
   }
 </script>
 
