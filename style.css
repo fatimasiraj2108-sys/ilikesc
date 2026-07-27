@@ -71,8 +71,11 @@ ul{ list-style:none; }
 /* ---------- NAV ---------- */
 .nav{ position:sticky; top:0; z-index:50; background:rgba(247,248,251,0.9); backdrop-filter:blur(8px); border-bottom:1px solid var(--border); }
 .nav-inner{ max-width:1100px; margin:0 auto; padding:15px 24px; display:flex; align-items:center; justify-content:space-between; gap:20px; }
+.auth-widget{ display:flex; align-items:center; }
+.auth-user{ display:none; align-items:center; gap:10px; }
+.auth-user span{ font-size:13px; color:var(--ink-soft); max-width:140px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 .brand{ display:flex; align-items:center; gap:11px; }
-.brand-mark{ width:36px; height:36px; border-radius:9px; background:var(--hero); display:flex; align-items:center; justify-content:center; color:#fff; font-family:'Sora',sans-serif; font-weight:700; font-size:14px; flex-shrink:0; }
+.brand-mark{ width:38px; height:38px; border-radius:9px; object-fit:cover; flex-shrink:0; }
 .brand-text .name{ font-family:'Sora',sans-serif; font-weight:600; font-size:14.5px; }
 .brand-text .tag{ font-size:11px; color:var(--ink-faint); }
 .nav-links{ display:flex; gap:2px; align-items:center; flex-wrap:wrap; }
@@ -90,17 +93,6 @@ section.block.tight{ padding:38px 0; }
   overflow:hidden;
   background:var(--hero);
   padding:80px 0 70px;
-}
-.hero-glow{
-  position:absolute;
-  width:460px; height:460px;
-  left:-230px; top:-230px;
-  border-radius:50%;
-  background:radial-gradient(circle, rgba(140,190,255,0.5) 0%, rgba(110,160,255,0.24) 38%, rgba(110,160,255,0) 70%);
-  filter:blur(6px);
-  pointer-events:none;
-  transform:translate3d(0,0,0);
-  transition:opacity .4s ease;
 }
 .hero-grid{ position:relative; display:grid; grid-template-columns:1.15fr 0.85fr; gap:50px; align-items:center; }
 .eyebrow{ display:inline-flex; align-items:center; gap:7px; font-size:12.5px; font-weight:600; letter-spacing:0.02em; color:var(--hero-text-soft); background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.16); padding:6px 14px; border-radius:99px; margin-bottom:20px; }

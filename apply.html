@@ -13,7 +13,7 @@
 <nav class="nav">
   <div class="nav-inner">
     <a class="brand" href="index.html">
-      <div class="brand-mark">SC</div>
+      <img class="brand-mark" src="logo.png" alt="Success Club logo">
       <div class="brand-text">
         <div class="name">Success Club Scholarship Portal</div>
         <div class="tag">Scholarship Programme</div>
@@ -27,6 +27,13 @@
       <a class="nav-link active" href="apply.html">Applications</a>
       <a class="nav-link" href="faq.html">FAQ</a>
       <a class="nav-link" href="status.html">Status</a>
+    </div>
+    <div class="auth-widget">
+      <button class="btn btn-ghost btn-sm" id="authSignInBtn" onclick="handleSignIn()">Sign in with Google</button>
+      <div class="auth-user" id="authUserBox">
+        <span id="authUserName"></span>
+        <button class="btn btn-ghost btn-sm" onclick="handleSignOut()">Sign out</button>
+      </div>
     </div>
   </div>
 </nav>
@@ -170,6 +177,16 @@
           </select>
         </div>
         <div class="field"><label for="siblings">Number of siblings <span style="font-weight:400;color:var(--ink-faint);">(optional)</span></label><input id="siblings" type="number" min="0" placeholder="e.g. 3"></div>
+        <div class="field">
+          <label for="studyEffort">How much time do you manage to study, on average?</label>
+          <select id="studyEffort" required>
+            <option value="">Select one</option>
+            <option value="low">Less than 1 hour a day</option>
+            <option value="some">1–2 hours a day</option>
+            <option value="good">2–4 hours a day</option>
+            <option value="high">4+ hours a day</option>
+          </select>
+        </div>
 
         <div class="form-section-title">5. Tell us about yourself</div>
         <div class="field">
@@ -229,6 +246,7 @@
 </footer>
 
 <script type="module" src="firebase-config.js"></script>
+<script src="auth-widget.js"></script>
 <script src="motion.js"></script>
 <script>
   async function submitApplication(e){
@@ -271,6 +289,7 @@
       schoolCosts: document.getElementById('schoolCosts').value,
       hardship: document.getElementById('hardship').value,
       siblings: document.getElementById('siblings').value,
+      studyEffort: document.getElementById('studyEffort').value,
       essay: document.getElementById('essay').value,
       driveMarks: document.getElementById('driveMarks').value,
       driveIncome: document.getElementById('driveIncome').value,

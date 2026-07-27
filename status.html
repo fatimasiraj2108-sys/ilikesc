@@ -13,7 +13,7 @@
 <nav class="nav">
   <div class="nav-inner">
     <a class="brand" href="index.html">
-      <div class="brand-mark">SC</div>
+      <img class="brand-mark" src="logo.png" alt="Success Club logo">
       <div class="brand-text">
         <div class="name">Success Club Scholarship Portal</div>
         <div class="tag">Scholarship Programme</div>
@@ -28,13 +28,25 @@
       <a class="nav-link" href="faq.html">FAQ</a>
       <a class="nav-link active" href="status.html">Status</a>
     </div>
+    <div class="auth-widget">
+      <button class="btn btn-ghost btn-sm" id="authSignInBtn" onclick="handleSignIn()">Sign in with Google</button>
+      <div class="auth-user" id="authUserBox">
+        <span id="authUserName"></span>
+        <button class="btn btn-ghost btn-sm" onclick="handleSignOut()">Sign out</button>
+      </div>
+    </div>
   </div>
 </nav>
 
 <div class="wrap" style="padding-top:52px;padding-bottom:70px;max-width:560px;">
   <div class="section-head reveal">
     <h2>Check your status</h2>
-    <p>Enter the Application ID you were given when you submitted. We only show your name, status, age, and marks here — nothing else, to keep your details private.</p>
+    <p>Sign in with Google to see every application linked to your account, or look up a single application using its ID. We only ever show name, status, age, and marks — nothing else, to keep your details private.</p>
+  </div>
+
+  <div class="card reveal" id="myAppsCard" style="display:none;margin-bottom:24px;">
+    <h3 style="font-size:15px;margin-bottom:12px;">Your applications</h3>
+    <div id="myAppsList"></div>
   </div>
 
   <form class="card form-card reveal" id="statusForm" onsubmit="lookupApplication(event)">
@@ -68,6 +80,7 @@
 </footer>
 
 <script type="module" src="firebase-config.js"></script>
+<script src="auth-widget.js"></script>
 <script src="motion.js"></script>
 <script>
   const STATUS_MAP = {
@@ -84,6 +97,32 @@
     const diff = Date.now() - dob.getTime();
     return Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
   }
+
+  window.addEventListener('firebase-ready', function(){
+    window.onUserAuthChange(async function(user){
+      const card = document.getElementById('myAppsCard');
+      const list = document.getElementById('myAppsList');
+      if(!user){
+        card.style.display = 'none';
+        return;
+      }
+      card.style.display = 'block';
+      list.innerHTML = '<p style="font-size:13px;color:var(--ink-faint);">Loading…</p>';
+      const mine = await window.storeListMyApplications();
+      if(mine.length === 0){
+        list.innerHTML = '<p style="font-size:13px;color:var(--ink-faint);">No applications linked to this Google account yet. If you applied without signing in, look it up by ID below instead.</p>';
+        return;
+      }
+      list.innerHTML = '';
+      mine.forEach(r => {
+        const s = STATUS_MAP[r.status] || STATUS_MAP.submitted;
+        const row = document.createElement('div');
+        row.className = 'receipt-row';
+        row.innerHTML = `<span>${r.fullName || 'Applicant'} · <span class="mono" style="font-size:12px;">${r.id}</span></span><span class="stamp" style="${s.style}">${s.text}</span>`;
+        list.appendChild(row);
+      });
+    });
+  });
 
   async function lookupApplication(e){
     e.preventDefault();

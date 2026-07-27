@@ -13,7 +13,7 @@
 <nav class="nav">
   <div class="nav-inner">
     <a class="brand" href="index.html">
-      <div class="brand-mark">SC</div>
+      <img class="brand-mark" src="logo.png" alt="Success Club logo">
       <div class="brand-text">
         <div class="name">Success Club Scholarship Portal</div>
         <div class="tag">Scholarship Programme</div>
@@ -27,6 +27,13 @@
       <a class="nav-link" href="apply.html">Applications</a>
       <a class="nav-link" href="faq.html">FAQ</a>
       <a class="nav-link" href="status.html">Status</a>
+    </div>
+    <div class="auth-widget">
+      <button class="btn btn-ghost btn-sm" id="authSignInBtn" onclick="handleSignIn()">Sign in with Google</button>
+      <div class="auth-user" id="authUserBox">
+        <span id="authUserName"></span>
+        <button class="btn btn-ghost btn-sm" onclick="handleSignOut()">Sign out</button>
+      </div>
     </div>
   </div>
 </nav>
@@ -47,12 +54,12 @@
         <tr><th>Factor</th><th>Weight</th><th>Why it matters</th></tr>
       </thead>
       <tbody>
-        <tr><td class="name">Academic marks</td><td class="wt">30%</td><td>Your last exam result, measured against your chosen track's threshold.</td></tr>
-        <tr><td class="name">Household income</td><td class="wt">30%</td><td>Combined monthly income against your track's income cap.</td></tr>
+        <tr><td class="name">Monthly family income</td><td class="wt">40%</td><td>Combined household income against your track's income cap — the single biggest factor.</td></tr>
+        <tr><td class="name">Family size</td><td class="wt">15%</td><td>More dependents sharing the same household income means more financial pressure.</td></tr>
+        <tr><td class="name">School / college costs</td><td class="wt">15%</td><td>How much of your household's income your current fees already take up.</td></tr>
         <tr><td class="name">Family hardship</td><td class="wt">15%</td><td>Circumstances like job loss, medical costs, or losing a guardian's income.</td></tr>
-        <tr><td class="name">Family size</td><td class="wt">10%</td><td>More dependents sharing the same household income means more financial pressure.</td></tr>
-        <tr><td class="name">School / college costs</td><td class="wt">10%</td><td>How much of your household's income your current fees already take up.</td></tr>
-        <tr><td class="name">Guardian employment</td><td class="wt">5%</td><td>Whether your guardian's income is stable, irregular, or absent.</td></tr>
+        <tr><td class="name">Guardian employment status</td><td class="wt">10%</td><td>Whether your guardian's income is stable, irregular, or absent.</td></tr>
+        <tr><td class="name">Study effort</td><td class="wt">5%</td><td>How much time you're able to put into studying, given your circumstances.</td></tr>
       </tbody>
     </table>
   </div>
@@ -94,7 +101,7 @@
           <option value="olevels">O-Levels Bridge Grant (All cities)</option>
         </select>
       </div>
-      <div class="field"><label for="eMarks">Last exam result (%)</label><input id="eMarks" type="number" min="0" max="100" placeholder="e.g. 82" required></div>
+      <div class="field"><label for="eMarks">Last exam result (%) <span style="font-weight:400;color:var(--ink-faint);">— checked against your track's threshold, not weighted below</span></label><input id="eMarks" type="number" min="0" max="100" placeholder="e.g. 82" required></div>
       <div class="field"><label for="eIncome">Household monthly income (PKR)</label><input id="eIncome" type="number" min="0" placeholder="e.g. 45000" required></div>
       <div class="field"><label for="eFamilySize">Number of people in your household (including you)</label><input id="eFamilySize" type="number" min="1" placeholder="e.g. 5" required></div>
       <div class="field"><label for="eCosts">Current monthly school/college costs (PKR)</label><input id="eCosts" type="number" min="0" placeholder="e.g. 6000" required></div>
@@ -115,6 +122,16 @@
           <option value="irregular">Irregular or daily-wage work</option>
           <option value="unemployed">Currently unemployed</option>
           <option value="unable">Guardian deceased or unable to work</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="eStudyEffort">How much time do you manage to study, on average?</label>
+        <select id="eStudyEffort" required>
+          <option value="">Select one</option>
+          <option value="low">Less than 1 hour a day</option>
+          <option value="some">1–2 hours a day</option>
+          <option value="good">2–4 hours a day</option>
+          <option value="high">4+ hours a day</option>
         </select>
       </div>
       <button type="submit" class="btn btn-accent" style="width:100%;">Calculate my chances</button>
@@ -138,6 +155,8 @@
   </div>
 </footer>
 
+<script type="module" src="firebase-config.js"></script>
+<script src="auth-widget.js"></script>
 <script src="motion.js"></script>
 <script>
   const TRACKS = {
@@ -149,8 +168,20 @@
 
   const HARDSHIP_SCORE = { none: 20, some: 60, significant: 95 };
   const EMPLOYMENT_SCORE = { stable: 20, irregular: 60, unemployed: 85, unable: 100 };
+  const STUDY_EFFORT_SCORE = { low: 25, some: 50, good: 75, high: 95 };
 
   function clamp(n, lo, hi){ return Math.max(lo, Math.min(hi, n)); }
+
+  // Income scoring follows fixed brackets rather than a straight line,
+  // matching the priority bands: below 45,000 gets the most priority,
+  // above 100,000 is usually not eligible without serious hardship.
+  function incomeBracketScore(income){
+    if (income <= 45000) return 100;
+    if (income <= 60000) return 80;
+    if (income <= 80000) return 55;
+    if (income <= 100000) return 25;
+    return 8;
+  }
 
   function checkEligibility(e){
     e.preventDefault();
@@ -162,19 +193,22 @@
     const costs = Number(document.getElementById('eCosts').value);
     const hardship = document.getElementById('eHardship').value;
     const employment = document.getElementById('eEmployment').value;
+    const studyEffort = document.getElementById('eStudyEffort').value;
     const panel = document.getElementById('resultPanel');
 
     // --- Rough estimate only, not a real predictive model ---
-    const marksScore = clamp(50 + (marks - track.marks) * 1.3, 0, 100);
-    const incomeScore = clamp(50 + ((track.income - income) / track.income) * 60, 0, 100);
+    const incomeScore = incomeBracketScore(income);
     const familyScore = clamp((familySize - 1) * 14, 0, 100);
     const costsScore = clamp((costs / Math.max(income, 1)) * 150, 0, 100);
     const hardshipScore = HARDSHIP_SCORE[hardship] ?? 20;
     const employmentScore = EMPLOYMENT_SCORE[employment] ?? 20;
+    const studyScore = STUDY_EFFORT_SCORE[studyEffort] ?? 20;
 
-    const weighted = marksScore * 0.30 + incomeScore * 0.30 + hardshipScore * 0.15
-                    + familyScore * 0.10 + costsScore * 0.10 + employmentScore * 0.05;
+    const weighted = incomeScore * 0.40 + familyScore * 0.15 + costsScore * 0.15
+                    + hardshipScore * 0.15 + employmentScore * 0.10 + studyScore * 0.05;
     const chance = Math.round(clamp(weighted, 4, 96));
+
+    const marksOk = marks >= track.marks;
 
     const tier = chance >= 65 ? '' : chance >= 35 ? 'mid' : 'low';
     const tierWord = chance >= 65 ? 'Good' : chance >= 35 ? 'Moderate' : 'Low';
@@ -190,14 +224,15 @@
       </div>
       <div class="chance-bar"><div class="chance-fill ${tier}" style="width:${chance}%"></div></div>
       <div class="factor-grid">
-        ${factorRow('Academic marks (30%)', marksScore)}
-        ${factorRow('Household income (30%)', incomeScore)}
+        ${factorRow('Monthly family income (40%)', incomeScore)}
+        ${factorRow('Family size (15%)', familyScore)}
+        ${factorRow('School/college costs (15%)', costsScore)}
         ${factorRow('Family hardship (15%)', hardshipScore)}
-        ${factorRow('Family size (10%)', familyScore)}
-        ${factorRow('School/college costs (10%)', costsScore)}
-        ${factorRow('Guardian employment (5%)', employmentScore)}
+        ${factorRow('Guardian employment (10%)', employmentScore)}
+        ${factorRow('Study effort (5%)', studyScore)}
       </div>
-      <p style="font-size:12.5px;margin-top:16px;">This is only a rough estimate to help you plan — it isn't a decision, and every application is read individually. Even a low percentage doesn't mean you shouldn't apply.</p>
+      <p style="font-size:12.5px;margin-top:14px;">Marks: your ${marks}% is <strong>${marksOk ? 'above' : 'below'}</strong> this track's ${track.marks}% threshold. This is checked separately from the percentage above, which reflects financial need.</p>
+      <p style="font-size:12.5px;margin-top:10px;">This is only a rough estimate to help you plan — it isn't a decision, and every application is read individually. Even a low percentage doesn't mean you shouldn't apply.</p>
       <a class="btn btn-solid" style="margin-top:14px;display:inline-block;" href="apply.html">Continue to application</a>`;
   }
 </script>

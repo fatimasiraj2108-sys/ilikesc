@@ -13,7 +13,7 @@
 <nav class="nav">
   <div class="nav-inner">
     <a class="brand" href="index.html">
-      <div class="brand-mark">SC</div>
+      <img class="brand-mark" src="logo.png" alt="Success Club logo">
       <div class="brand-text">
         <div class="name">Success Club Scholarship Portal</div>
         <div class="tag">Scholarship Programme</div>
@@ -27,6 +27,13 @@
       <a class="nav-link" href="apply.html">Applications</a>
       <a class="nav-link active" href="faq.html">FAQ</a>
       <a class="nav-link" href="status.html">Status</a>
+    </div>
+    <div class="auth-widget">
+      <button class="btn btn-ghost btn-sm" id="authSignInBtn" onclick="handleSignIn()">Sign in with Google</button>
+      <div class="auth-user" id="authUserBox">
+        <span id="authUserName"></span>
+        <button class="btn btn-ghost btn-sm" onclick="handleSignOut()">Sign out</button>
+      </div>
     </div>
   </div>
 </nav>
@@ -101,6 +108,8 @@
   </div>
 </footer>
 
+<script type="module" src="firebase-config.js"></script>
+<script src="auth-widget.js"></script>
 <script src="motion.js"></script>
 </body>
 </html>
