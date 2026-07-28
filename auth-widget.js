@@ -12,7 +12,11 @@ window.addEventListener('firebase-ready', function () {
     if (user) {
       signInBtn.style.display = 'none';
       userBox.style.display = 'flex';
-      if (nameEl) nameEl.textContent = user.displayName || user.email || 'Signed in';
+      if (nameEl) {
+        const fullLabel = user.displayName || user.email || 'Signed in';
+        nameEl.textContent = fullLabel.split(' ')[0];
+        nameEl.title = fullLabel;
+      }
     } else {
       signInBtn.style.display = 'inline-flex';
       userBox.style.display = 'none';

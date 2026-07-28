@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>(function(){try{if(localStorage.getItem('theme')==='dark'){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}})();</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Applications — Success Club Scholarship Portal</title>
+<title>Apply — Success Club Scholarship Portal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
@@ -19,74 +20,33 @@
         <div class="tag">Scholarship Programme</div>
       </div>
     </a>
-    <div class="nav-links">
+    <div class="nav-links" id="navLinks">
       <a class="nav-link" href="index.html">Home</a>
       <a class="nav-link" href="about.html">About Us</a>
       <a class="nav-link" href="universities.html">Universities</a>
       <a class="nav-link" href="eligibility.html">Eligibility</a>
-      <a class="nav-link active" href="apply.html">Applications</a>
+      <a class="nav-link active" href="apply.html">Apply</a>
       <a class="nav-link" href="faq.html">FAQ</a>
       <a class="nav-link" href="status.html">Status</a>
     </div>
-    <div class="auth-widget">
-      <button class="btn btn-ghost btn-sm" id="authSignInBtn" onclick="handleSignIn()">Sign in with Google</button>
-      <div class="auth-user" id="authUserBox">
-        <span id="authUserName"></span>
-        <button class="btn btn-ghost btn-sm" onclick="handleSignOut()">Sign out</button>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" onclick="toggleTheme()">
+        <svg id="themeIconMoon" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+        <svg id="themeIconSun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      </button>
+      <div class="auth-widget">
+        <button class="btn btn-signin" id="authSignInBtn" onclick="handleSignIn()">Sign in with Google</button>
+        <div class="auth-user" id="authUserBox">
+          <span id="authUserName"></span>
+          <button class="btn btn-ghost btn-sm" onclick="handleSignOut()">Sign out</button>
+        </div>
       </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu" onclick="toggleMobileNav()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
     </div>
   </div>
 </nav>
-
-<section class="block tight">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <h2>Open scholarships</h2>
-      <p>Four tracks are currently open. Seats are filled on a rolling basis, so apply as early as you can.</p>
-    </div>
-    <div class="grid-2 reveal">
-      <div class="card sch-card">
-        <div class="sch-top">
-          <div><div class="sch-title">Matric Continuation Grant</div><div class="sch-city">Karachi</div></div>
-          <div class="sch-amount"><div class="n">₨40,000</div><div class="p">per year</div></div>
-        </div>
-        <div class="sch-desc">For Grade 9–10 students at risk of leaving school due to fees. Covers tuition and books.</div>
-        <div><div class="seats"><span>Seats filled</span><span>18 / 25</span></div><div class="bar"><div class="bar-fill" style="width:72%"></div></div></div>
-        <div class="sch-bottom"><span class="deadline">Deadline · 15 Aug 2026</span></div>
-      </div>
-
-      <div class="card sch-card">
-        <div class="sch-top">
-          <div><div class="sch-title">Intermediate Excellence Award</div><div class="sch-city">Lahore</div></div>
-          <div class="sch-amount"><div class="n">₨60,000</div><div class="p">per year</div></div>
-        </div>
-        <div class="sch-desc">For Grade 11–12 students scoring 80%+ in matric. Covers tuition, exam fees, and books.</div>
-        <div><div class="seats"><span>Seats filled</span><span>9 / 15</span></div><div class="bar"><div class="bar-fill" style="width:60%"></div></div></div>
-        <div class="sch-bottom"><span class="deadline">Deadline · 20 Aug 2026</span></div>
-      </div>
-
-      <div class="card sch-card">
-        <div class="sch-top">
-          <div><div class="sch-title">A-Levels Momentum Scholarship</div><div class="sch-city">Islamabad</div></div>
-          <div class="sch-amount"><div class="n">₨85,000</div><div class="p">per year</div></div>
-        </div>
-        <div class="sch-desc">For students moving from O-Levels into A-Levels with strong academic records.</div>
-        <div><div class="seats"><span>Seats filled</span><span>4 / 10</span></div><div class="bar"><div class="bar-fill" style="width:40%"></div></div></div>
-        <div class="sch-bottom"><span class="deadline">Deadline · 25 Aug 2026</span></div>
-      </div>
-
-      <div class="card sch-card">
-        <div class="sch-top">
-          <div><div class="sch-title">O-Levels Bridge Grant</div><div class="sch-city">Karachi · Lahore · Islamabad</div></div>
-          <div class="sch-amount"><div class="n">₨55,000</div><div class="p">per year</div></div>
-        </div>
-        <div class="sch-desc">Open in all three cities, for students moving from local-board schools into O-Levels.</div>
-        <div><div class="seats"><span>Seats filled</span><span>12 / 20</span></div><div class="bar"><div class="bar-fill" style="width:60%"></div></div></div>
-        <div class="sch-bottom"><span class="deadline">Deadline · 30 Aug 2026</span></div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <section class="block tight" id="apply-form">
   <div class="wrap">

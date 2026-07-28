@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>(function(){try{if(localStorage.getItem('theme')==='dark'){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}})();</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Status — Success Club Scholarship Portal</title>
@@ -19,21 +20,30 @@
         <div class="tag">Scholarship Programme</div>
       </div>
     </a>
-    <div class="nav-links">
+    <div class="nav-links" id="navLinks">
       <a class="nav-link" href="index.html">Home</a>
       <a class="nav-link" href="about.html">About Us</a>
       <a class="nav-link" href="universities.html">Universities</a>
       <a class="nav-link" href="eligibility.html">Eligibility</a>
-      <a class="nav-link" href="apply.html">Applications</a>
+      <a class="nav-link" href="apply.html">Apply</a>
       <a class="nav-link" href="faq.html">FAQ</a>
       <a class="nav-link active" href="status.html">Status</a>
     </div>
-    <div class="auth-widget">
-      <button class="btn btn-ghost btn-sm" id="authSignInBtn" onclick="handleSignIn()">Sign in with Google</button>
-      <div class="auth-user" id="authUserBox">
-        <span id="authUserName"></span>
-        <button class="btn btn-ghost btn-sm" onclick="handleSignOut()">Sign out</button>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" onclick="toggleTheme()">
+        <svg id="themeIconMoon" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+        <svg id="themeIconSun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      </button>
+      <div class="auth-widget">
+        <button class="btn btn-signin" id="authSignInBtn" onclick="handleSignIn()">Sign in with Google</button>
+        <div class="auth-user" id="authUserBox">
+          <span id="authUserName"></span>
+          <button class="btn btn-ghost btn-sm" onclick="handleSignOut()">Sign out</button>
+        </div>
       </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu" onclick="toggleMobileNav()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
     </div>
   </div>
 </nav>
